@@ -1,0 +1,18 @@
+button {
+    width: 100px;
+    height: 40px;
+    background-color: skyblue;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+}
+
+input {
+    border: 1px solid #141313ac;
+    width: 120px;
+    height: 20px;
+    outline: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+}
