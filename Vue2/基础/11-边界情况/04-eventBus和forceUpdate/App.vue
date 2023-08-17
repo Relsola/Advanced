@@ -17,8 +17,7 @@ export default {
 
   methods: {
     handle(...val) {
-      const value = val[this.num];
-      this.num ^= 1;
+      const value = val[(this.num ^= 1)];
 
       // 强制刷新
       this.arr[0] = this.arr[0] << 1;
