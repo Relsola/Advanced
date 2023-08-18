@@ -8,19 +8,21 @@
 2. created	实例已完成对选项的处理，这些已被配置完毕：数据侦听、计算属性、方法、事件/侦听器的回调函数。然而，挂载阶段还没开始，真实 dom 还没有生成，$el 还不可用
 
 3. beforeMount	在挂载开始之前被调用：相关的 render 函数首次被调用
-mounted	实例被挂载后调用，在当前阶段，真实的 dom 挂载完毕，数据完成双向绑定，可以访问到 dom 节点
 
-4. beforeUpdate	在数据发生改变后，DOM 被更新之前被调用
+4. mounted	实例被挂载后调用，在当前阶段，真实的 dom 挂载完毕，数据完成双向绑定，可以访问到 dom 节点
 
-5. update	在数据更改导致的虚拟 DOM 重新渲染和更新完毕之后被调用
 
-6. activated	keep-alive 专属，被 keep-alive 缓存的组件激活时调用
+5. beforeUpdate	在数据发生改变后，DOM 被更新之前被调用
 
-7. deactivated	keep-alive 专属，被 keep-alive 缓存的组件失活时调用
+6. update	在数据更改导致的虚拟 DOM 重新渲染和更新完毕之后被调用
 
-8. beforeDestroy	实例销毁之前调用
+7. activated	keep-alive 专属，被 keep-alive 缓存的组件激活时调用
 
-9. destroyed	实例销毁后调用
+8. deactivated	keep-alive 专属，被 keep-alive 缓存的组件失活时调用
+
+9. beforeDestroy	实例销毁之前调用
+
+10. destroyed	实例销毁后调用
 
 
 # 简述每个生命周期具体适合哪些场景
