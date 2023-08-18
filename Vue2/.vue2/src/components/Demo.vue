@@ -3,5 +3,5 @@
 </template>
 
 <script>
-export default {data: () => ({ msg: "Hello Word"})};
+export default { data: () => ({ msg: "Hello Word" }) };
 </script>
