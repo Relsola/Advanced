@@ -1,0 +1,287 @@
+// 单行注释
+/* 
+    多行注释
+
+        在less编译成css的时候 单行注释不会被编译 不会出现在编译好的文件中
+        多行注释会保留在新编译的css中
+*/
+
+
+// 普通嵌套 --------------------------------------------------
+#app {
+    #header {
+        .logo {
+            color: white;
+        }
+
+        // &:代表上一层选择器的名字，此例便是header
+        &:after {
+            content: "hello";
+        }
+    }
+}
+
+
+
+// 媒体查询 --------------------------------------------------
+.left {
+    height: 500px;
+    background-color: #adb;
+
+    // >=1200
+    @media screen and(min-width:1200px) {
+        background: #6e4848;
+    }
+
+    // >=1200,<=900
+    @media screen and(max-width:1200px) and (min-width:900px) {
+        background: #baa;
+    }
+
+    //<900
+    @media screen and (max-width:900px) {
+        background: #abd;
+    }
+}
+
+
+// 值变量 --------------------------------------------------
+/* 
+   名称要求： 字母、数字、下划线、中横线 
+   首字母可以为数字，可以为纯数字 
+   区分大小写 
+   变量值随意
+*/
+@color: #adf;
+@fontSize: 14px;
+@wrap: 1156px;
+@w: width;
+
+header {
+    background-color: @color;
+    font-size: @fontSize;
+    @{w}: @wrap;
+}
+
+
+
+
+// 选择器变量 --------------------------------------------------
+@mySelector: #wrap;
+@Wrap: wrap;
+
+@{mySelector} {
+    //变量名 必须使用大括号包裹
+    color: #999;
+    width: 50%;
+}
+
+.@{Wrap} {
+    color: #ccc;
+}
+
+#@{Wrap} {
+    color: #666;
+}
+
+/* 生成的 CSS */
+#wrap {
+    color: #999;
+    width: 50%;
+}
+
+.wrap {
+    color: #ccc;
+}
+
+#wrap {
+    color: #666;
+}
+
+
+
+
+// 变量运算 --------------------------------------------------
+header {
+    height: 100px+200px;
+}
+
+section {
+    height: 100px*2%; // 200px; 
+    width: 900/33px; //27.2727px;
+    // 如果只有一个有单位，则使用该单位
+}
+
+
+
+// 变量拼串 --------------------------------------------------
+.judge(@i) when(@i=1) {
+    @size: 15px;
+}
+
+.judge(@i) when(@i>1) {
+    @size: 16px;
+}
+
+.loopAnimation(@i) when (@i < 16) {
+    .circle:nth-child(@{i}) {
+        .judge(@i);
+        border-radius: @size @size 0 0;
+        animation:~"circle@{i}" infinite @duration @ease;
+        transition-delay:~"@{i}ms";
+    }
+
+    @keyframes ~"circle@{i}" {
+        // do something...
+    }
+
+    .loopAnimation(@i + 1);
+}
+
+
+// 普通混合 --------------------------------------------------
+// 将重复使用的代码封装到一个类中，在需要使用的地方调用。
+.getBG(@picName) {
+    background-image: url('/static/module/class/content/img/@{picName}');
+    background-size: 100%;
+    background-position: center;
+}
+
+#header {
+    .getBG(01.png);
+}
+
+.bor(...) {
+    border: @arguments;
+}
+
+
+div {
+    .bor(10px solid red)
+}
+
+
+
+// 参数混合 --------------------------------------------------
+// 定义混合
+.border(@border_color) {
+    border: 2px solid @border_color;
+}
+
+// 使用混合
+.div {
+    .border(#f60);
+    // 使用时我们需要传入一个参数进去
+}
+
+
+// 参数默认值 --------------------------------------------------
+// 定义混合
+.border(@border_color: #f60; ) {
+    border: 2px solid @border_color;
+}
+
+// 使用混合
+.div {
+    .border();
+}
+
+
+// 条件混合 --------------------------------------------------
+// Less 没有 if else，可是它有 when
+// and 运算符 ，相当于 与运算 &&，必须条件全部符合才会执行
+.border(@width, @color, @style) when (@width>100px) and(@color=#999) {
+    border: @style @color @width;
+}
+
+
+// 循环方法 --------------------------------------------------
+// Less 并没有提供 for 循环功能，是使用递归去实现。 
+.generate-columns(4);
+
+.generate-columns(@n, @i: 1) when (@i =< @n) {
+    .column-@{i} {
+        width: (@i * 100% / @n);
+    }
+
+    .generate-columns(@n, (@i + 1));
+}
+
+/* 生成后的 CSS */
+.column-1 {
+    width: 25%;
+}
+
+.column-2 {
+    width: 50%;
+}
+
+.column-3 {
+    width: 75%;
+}
+
+.column-4 {
+    width: 100%;
+}
+
+
+// 函数 --------------------------------------------------
+/* 
+    Less 提供了内置函数来处理，文档地址 less.bootcss.com/functions/ 
+
+    函数和混合的区分： 
+      混合相当于是自定义函数 
+      函数相当于是内置函数 
+
+    数学函数 
+      ceil 向上取整 
+      floor 向下取整 
+      percentage 将小数转化为 『百分比』 
+    
+    颜色操作 
+      lighten 加亮 
+      darken 加暗 
+      fadein 提高透明度 
+      fadeout 降低透明度
+*/
+
+
+// 继承 --------------------------------------------------
+.animation {
+    transition: all .3s ease-out;
+
+    .hide {
+        transform: scale(0);
+    }
+}
+
+#main {
+    &:extend(.animation);
+}
+
+#con {
+    &:extend(.animation .hide);
+}
+
+/* 生成后的 CSS */
+.animation,
+#main {
+    transition: all .3s ease-out;
+}
+
+.animation .hide,
+#con {
+    transform: scale(0);
+}
+
+
+// 导入 --------------------------------------------------
+/* 
+   Less 支持组件化，对一些公共文件进行复用，从而优化css文件目录结构
+        导入less 文件后缀可省略
+        @import 的位置可随意放置
+*/
+
+@import "base";
+//等价于
+@import "base.less";

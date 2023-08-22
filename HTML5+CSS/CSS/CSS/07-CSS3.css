@@ -1,0 +1,52 @@
+/* 
+  新增选择器  css3新增的选择器 属性选择器 结合伪类选择器 ui伪类选择器
+
+    1. 选择带有href属性的元素
+    a[href]{ ... }
+    
+    2. 选择所有使用href属性等于 xxx 属性的元素
+    a[href="xxx"] { ... }
+
+    3. 选择 href 属性的值以 xxx 开头的元素
+    a[href^="xxx"] { ... }
+
+    4. $以什么什么结尾
+    a[href$="xxx"]
+
+    5. 选择每一个class属性的值包括xxx的class
+    a[class*="xx"]
+
+    6. :nth-child
+    ul li:nth-child(3)
+        选择ul标签下的第3个子集 如果子标签是li 成功设置 如果不是样式无效
+
+    7. :nth-of-type(1)
+    ul li:nth-of-type(1)
+        选择ul标签下的第1个li标签
+
+    9. input[type="text"]:disabled
+*/
+
+
+
+/* :link定义没有被访问过的元素 用于a标签*/
+a:link {
+    color: pink;
+}
+
+/* 定义已经被访问过的元素 用于a标签*/
+a:visited {
+    color: orange;
+}
+
+/* 鼠标移入，用于任何标签 */
+a:hover {
+    color: green;
+}
+
+/* 找到鼠标点击上去 不松开的元素 任何标签都能使用 */
+a:active {
+    color: blueviolet;
+}
+
+

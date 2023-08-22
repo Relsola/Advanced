@@ -1,0 +1,66 @@
+/* 
+   1. 固定定位  position: fixed;
+        固定定位不继承父元素的宽 要么手动设置宽度 要么内容撑起 
+        参照浏览器定位（body） 
+        脱离文档流
+
+
+    2. 静态定位   position: static;
+        静态的 默认 设置四个值方向无效
+
+
+    3. 相对定位   position: relative;
+        相对与自身定位
+        原本空间仍被保留
+        不脱离文档流
+        可以设置四个方向值
+
+
+    4. 绝对定位   position: absolute;
+        脱离文档流 
+        原本空间被占用 
+        相对非静态定位（一般为相对定位、固定定位）的父类元素 
+        若没有设置他会去找祖先元素，若找不到会去找到浏览器（body）
+        如果一项设置了就按照就近原则
+        不再继承父元素的宽 要么手动设置宽高 要么内容撑起盒子
+
+
+    5. 粘性定位   position: static;
+        粘性定位可以称之为相对定位和固定定位的结合 
+        在取值范围内是相对定位，之后是固定定位；
+*/
+
+div {
+    position: fixed;
+    position: static;
+    position: relative;
+    position: absolute;
+    position: static;
+}
+
+
+/* 利用定位实现垂直居中----------------- */
+div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+div {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+
+/* 实现三角形 */
+div {
+    width: 0;
+    height: 0;
+    border: 30px solid transparent;
+    border-bottom: 50px solid black;
+}

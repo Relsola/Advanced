@@ -1,0 +1,174 @@
+div {
+    /* 过渡 ---------------------------------- */
+    transition: width 1s, height 1s;
+    transition: all 0.5s;
+
+    /* 规定设置过渡效果css属性的名称 */
+    transition-property: all;
+
+    /* 动画花费的时间 规定过渡效果需要多长时间 */
+    transition-duration: 1s;
+
+    /* 运动曲线 规定速度效果的的曲线 
+         1.默认值ease 慢-快-慢 
+         2.ease-in 开始慢-之后快 
+         3.ease-out 开始快-之后慢 
+         4.ease-in-out 和默认值一样 先加速后减速 开始和结束慢 
+         5.linear 匀速  
+    */
+    transition-timing-function: linear;
+
+    /* 何时开始动画 延迟时间 */
+    transition-delay: 2s;
+
+    /* 复合写法 简写 */
+    transition: all 1s linear 1s;
+
+
+
+    /* 平移 ---------------------------------- */
+
+    /* 
+        translate的特点
+            1. 移动对行内标签没有效果
+            2. 如果填写的是%，是根据的元素自身的%
+            3. 不会影响到其他元素的位置
+
+        translate()里面有两个参数
+            第一个是 x轴的偏移量    右正左负
+            第二个是 y轴的偏移量    下正上负
+        
+        translate单位值
+            1. 可以用px
+            2. 可以用% 移动的是自身大小的%
+    */
+    transform: translateX(300px) translateY(300px);
+    translate: translate(-100px, 0);
+
+
+    /* scale 缩放 ---------------------------------- */
+    /*  
+        scale
+            大于1的时候放大
+            小于1的时候缩小
+            设置一个值的时候，代表宽高都缩放
+            可以设置两个数值，但是不建议使用，盒子会变形
+
+        scale()里面有两个参数
+            第一个值代表的是宽度
+            第二个值代表的是高度
+    */
+    transform: scaleX(0.6) scaleY(4);
+
+
+
+    /* 旋转 ---------------------------------- */
+    /* rotate()
+        1.里面的单位必须是deg 度数 
+        2.默认的是元素中心点 50%，50%
+        3.正值是顺时针方向，负值是逆时针方向
+        4.每次变换的时候都是从0度开始的
+
+
+      transform-origin 旋转中心 
+        第一个数 参照的是水平方向 右正左负 
+        第二个数 参照的是垂直方向 上负下正 
+        默认x y 转换的中心点（50% 50%） 
+        还可以使用像素（px px ）或者方位值（top bottom left right center） 
+        如果单独设置方位值的时候，只设置一个值，第二个值默认在中间。
+
+      perspective 景深 视距
+        设置何处角度去看这个元素的角度 可以改变元素是一个什么样的透视
+
+      rotate3d()  3D旋转
+        三个参数分别是 x轴 y轴 z轴 取值是0和1
+        X轴代表的是水平方向 X轴的右边是正值 左边负值 
+        Y轴代表的是垂直向下 Y轴的下面是正值 上面负值 
+        Z轴代表的是垂直屏幕 往外面的是正值 往里面是负值
+
+    */
+    perspective: 500px;
+    transform-origin: 50% 0;
+    transform: rotate(130deg);
+
+    transform: rotateX(45deg);
+    transform: rotateY(45deg);
+    transform: rotateZ(45deg);
+    transform: rotate3d(1, 1, 0, 40deg);
+
+
+
+
+    /* 倾斜 ---------------------------------- */
+    /* skew()
+         第一个数代表x轴
+         第二个数代表y轴
+         如果只设置一个数的时候，默认是X轴
+    */
+    transform: skew(70deg);
+
+
+
+    /* 假如 同时使用多个动画，中间以 空格 分隔 */
+    transform: translateX(400px) scale(.3) rotate(360deg);
+}
+
+
+/* 动画 ............................................ */
+div {
+    /* animation 动画
+            name 动画帧的名称 
+            duration 持续时间
+            timing-function 定义动画的运动曲线
+                1. linear匀速
+                2. ease-in 先慢后快
+                3. ease-out 先快后慢
+                4. ease-in-out 慢快慢
+            delay 动画开始延迟时间 
+            iteration-count 动画的周期计数
+            direction 方向
+            fill-mode 填充
+    */
+
+    /* animation：名称 持续时间 运动曲线（常用） 延迟时间 周期 方向 填充 */
+
+    /* 动画周期数 infinite 无限播放（常用） n 运行几次 */
+    animation-iteration-count: 2;
+
+    /* 运动方向  normal 默认正常的顺时针  reverse 反向逆时针 */
+    animation-direction: reverse;
+}
+
+
+
+/* 
+   定义动画 关键帧 
+   identifier 关键帧动画的名字 
+   { }里面写的是起始和结束 
+*/
+
+@keyframes anim {
+
+    /* 第一种方式 */
+    form {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(720deg);
+    }
+
+
+    /* 第二种方式 常用 */
+    0% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

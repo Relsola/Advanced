@@ -1,0 +1,400 @@
+/* 
+    sass有两种语法，两种语法特性一致。 
+      一种语法使用 .scss 扩展名的文件，是css语法的超集
+      另一种语法是sass最初的语法，以.sass扩展名，使用缩进代替了第一种的花括号。
+
+    
+    声明，不同声明之间用分号分隔 
+        通用声明，可以在样式表的任何地方 
+            变量声明，比如 $var: value 
+            流程控制at-rules 
+            @error, @warn, and @debug 规则 
+    
+        css声明，这些声明生成css, 除了不能用在@function，可以用在任何地方 
+            style规则，比如 h1 { ... }
+            CSS at-rules, 比如 @media and @font-face 
+            @include 使用Mixin 
+            @at-root 
+
+        顶层声明，用在样式表顶层或者嵌套在顶层的css声明中 
+            @use 加载模块 
+            @import
+            @mixin 定义mixin 
+            @function 定义函数 
+        
+        其他声明 
+            属性声明，比如width: 100px, 只能用于style规则和一些css at-rules @extend, 用在样式规则 
+    
+    表达式, 一个表达式是在一个属性或变量声明的右侧的任何东西。每个表达式生成一个value，我们将sass的表达式语法称为sassScript。 
+        字面量 最简单的表达式只代表静态值 
+            Number, 单位可选，比如12或100px 
+            String, 引号可选，比如"Helvetica Neue" 或bold 
+            Colors, 可以用16进制表达式或者颜色名，比如#c6538c或blue 
+            boolean, true或false 
+            null 
+            Lists of values, 用空格或逗号分隔，可能用方括号包围或者没有括号，比如1.5em 1em 0 2em, Helvetica, Arial, sans-serif或[col1-start] 
+            Maps, 比如("background": red, "foreground": pink) 
+            
+        操作符 数字操作符
+           ==和 !=用来检查是否相等
+           +, -, *, /, and % <, 
+           <=, >, and>=and, or, and not用来进行布尔判断
+           +, -, /也可以用来连接字符串 
+           (和)用于显式控制操作顺序 
+        
+       其他表达式 
+          变量，比如$var 
+          函数调用，比如nth($list, 1) 
+          特殊函数，比如calc(1px + 100%) 
+          父级选择器，比如& 
+          值 !important 
+*/
+
+
+
+// 属性声明 ------------------------------------------
+// 插值，可以用来动态生成任何需要的属性
+@mixin define-emoji($name, $glyph) {
+    span.emoji-#{$name} {
+        font-family: IconFont;
+        font-variant: normal;
+        font-weight: normal;
+        content: $glyph;
+    }
+}
+
+@include define-emoji("women-holding-hands", "👭");
+
+//css
+span.emoji-women-holding-hands {
+    font-family: IconFont;
+    font-variant: normal;
+    font-weight: normal;
+    content: "👭";
+}
+
+
+
+
+// 嵌套，可以用于处理父子选择器，和带相同前缀的属性
+.enlarge {
+    font-size: 14px;
+
+    transition: {
+        property: font-size;
+        duration: 4s;
+        delay: 2s;
+    }
+
+    &:hover {
+        font-size: 36px;
+    }
+}
+
+//css
+.enlarge {
+    font-size: 14px;
+    transition-property: font-size;
+    transition-duration: 4s;
+    transition-delay: 2s;
+}
+
+.enlarge:hover {
+    font-size: 36px;
+}
+
+
+
+// 隐藏声明，如果一个声明的值是null或空字符串，则不会编译到css 
+// 自定义属性，css自定义属性, 也叫css变量，当sass在编译自定义属性时会把相关字段原样传给css，唯一的个例是插值(#{})，后者可以注入动态的值。
+
+$primary: #81899b;
+$accent: #302e24;
+$warn: #dfa612;
+
+:root {
+    --primary: #{$primary};
+    --accent: #{$accent};
+    --warn: #{$warn};
+
+    // Even though this looks like a Sass variable, it's valid CSS so it's not
+    // evaluated.
+    --consumed-by-js: $primary;
+}
+
+//css
+:root {
+    --primary: #81899b;
+    --accent: #302e24;
+    --warn: #dfa612;
+    --consumed-by-js: $primary;
+}
+
+
+// 注意插值会移除字符串的引号，如果要保留引号需要使用 meta.inspect()函数
+@use "sass:meta";
+$string: "dd";
+
+:root {
+    --consumed-by-js: #{meta.inspect($string)};
+}
+
+
+
+
+// 父选择器 ------------------------------------------
+// 父选择器&用在嵌套的选择器中代表外部的选择器，使得可以用更复杂的方式复用外部的选择器，比如添加伪类。具体使用时会被外部的选择器替换，而不是正常的嵌套行为
+
+.alert {
+
+    // The parent selector can be used to add pseudo-classes to the outer
+    // selector.
+    &:hover {
+        font-weight: bold;
+    }
+
+    // It can also be used to style the outer selector in a certain context, such
+    // as a body set to use a right-to-left language.
+    [dir=rtl] & {
+        margin-left: 0;
+        margin-right: 10px;
+    }
+
+    // You can even use it as an argument to pseudo-class selectors.
+    :not(&) {
+        opacity: 0.8;
+    }
+}
+
+//css
+.alert:hover {
+    font-weight: bold;
+}
+
+[dir=rtl] .alert {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+:not(.alert) {
+    opacity: 0.8;
+}
+
+
+
+// 添加后缀，可以用来给外部的选择器添加后缀，当使用BEM等方法时效果显著，比如&__copy 用于sassScript，返回父选择器，比如判断有没有父选择器
+@mixin app-background($color) {
+    #{if(&, '&.app-background', '.app-background')} {
+        background-color: $color;
+        color: rgba(#fff, 0.75);
+    }
+}
+
+@include app-background(#036);
+
+.sidebar {
+    @include app-background(#c6538c);
+}
+
+
+//css
+.app-background {
+    background-color: #036;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.sidebar.app-background {
+    background-color: #c6538c;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+
+
+// 还可以把&作为一个表达式传递给函数或者用作插值，当结合selector函数和@at-root规则使用时，可以嵌套出强大的效果。
+@use "sass:selector";
+
+@mixin unify-parent($child) {
+    @at-root #{selector.unify(&, $child)} {
+        @content;
+    }
+}
+
+.wrapper .field {
+    @include unify-parent("input") {
+        /* ... */
+    }
+
+    @include unify-parent("select") {
+        /* ... */
+    }
+}
+
+
+//css
+.wrapper input.field {
+    /* ... */
+}
+
+.wrapper select.field {
+    /* ... */
+}
+
+
+
+
+// 占位选择器 ------------------------------------------
+// 占位选择器以%开始，不会输出到css任何东西，但是可以用来extended
+%toolBelt {
+    box-sizing: border-box;
+    border-top: 1px rgba(#000, .12) solid;
+    padding: 16px 0;
+    width: 100%;
+
+    &:hover {
+        border: 2px rgba(#000, .5) solid;
+    }
+}
+
+.action-buttons {
+    @extend %toolBelt;
+    color: #4285f4;
+}
+
+.reset-buttons {
+    @extend %toolBelt;
+    color: #cddc39;
+}
+
+
+//css
+.action-buttons,
+.reset-buttons {
+    box-sizing: border-box;
+    border-top: 1px rgba(0, 0, 0, 0.12) solid;
+    padding: 16px 0;
+    width: 100%;
+}
+
+.action-buttons:hover,
+.reset-buttons:hover {
+    border: 2px rgba(0, 0, 0, 0.5) solid;
+}
+
+.action-buttons {
+    color: #4285f4;
+}
+
+.reset-buttons {
+    color: #cddc39;
+}
+
+// 变量 ------------------------------------------
+// sass的变量名以$开始,可以用变量名代替对应的值。 一个变量声明像一个属性声明： <variable>: <expression>;,但和属性只能在样式规则或at-rule中使用不同，变量可以在任何地方声明。
+
+$base-color: #c6538c;
+$border-dark: rgba($base-color, 0.88);
+
+.alert {
+    border: 1px solid $border-dark;
+}
+
+/* 
+  注意css本身也有变量，但是和sass中的表现不一样，区别包括 
+     sass变量会被编译掉，css变量会保留在输出 
+     css变量对于不同元素可以有不同值，但是sass变量同时只能有一个值 
+     sass变量是命令式的，当使用该变量然后改动时，之前使用的变量将不变，
+     css变量是声明式的，如果改变会影响到之前的使用 
+     
+     默认值，可以在变量的值后面添加 !default表示默认值，当作为一个模块时，允许用户使用with重写,如果没有标记默认值，则不允许with重写 
+     内置变量，sass内置模块的变量不可改变
+*/
+
+@use "sass:math" as math;
+
+// This assignment will fail.
+math.$pi: 0;
+
+
+// 作用域，在顶级作用域声明的变量是全局的，在块(花括号包围的)中定义的是本地的，可以在块中使用 !global来设置全局变量，注意只能用于之前在全局声明过的变量。
+
+$variable: first global value;
+
+.content {
+    $variable: second global value !global;
+    value: $variable;
+}
+
+.sidebar {
+    value: $variable;
+}
+
+
+// 在控制流中的变量声明只用于分配给外部作用域已经存在的变量以值，不能声明新的
+$dark-theme: true !default;
+$primary-color: #f8bbd0 !default;
+$accent-color: #6a1b9a !default;
+
+@if $dark-theme {
+    $primary-color: darken($primary-color, 60%);
+    $accent-color: lighten($accent-color, 60%);
+}
+
+.button {
+    background-color: $primary-color;
+    border: 1px solid $accent-color;
+    border-radius: 3px;
+}
+
+/* 
+   高级的变量函数，meta.variable-exists()用于检查当前作用域给定变量是否存在， 
+   meta.global-variable-exists()用于检查全局作用域。 
+   注意不能使用插值来基于一个变量定义另一个变量，但是可以使用映射。
+*/
+
+@use "sass:map";
+
+$theme-colors: (
+    "success": #28a745,
+    "info": #17a2b8,
+    "warning": #ffc107,
+);
+
+.alert {
+    // Instead of $theme-color-#{warning}
+    background-color: map.get($theme-colors, "warning");
+}
+
+
+// 插值 ------------------------------------------
+/* 
+   插值用#{}包裹，可以用在以下地方 
+      样式规则中的选择器 
+      声明中的属性名 
+      自定义属性值 
+      css at-rules 
+      @extends 
+      @import 
+      带引号或者不带引号的字符串 
+      特殊函数 
+      一般函数名 
+      注释
+*/
+
+@mixin corner-icon($name, $top-or-bottom, $left-or-right) {
+    .icon-#{$name} {
+        background-image: url("/icons/#{$name}.svg");
+        position: absolute;
+        #{$top-or-bottom}: 0;
+        #{$left-or-right}: 0;
+    }
+}
+
+@include corner-icon("mail", top, left);
+
+//css
+.icon-mail {
+    background-image: url("/icons/mail.svg");
+    position: absolute;
+    top: 0;
+    left: 0;
+}
