@@ -1,30 +1,30 @@
 // 使用async修饰一个函数后，这个函数的返回值就变成了一个promise对象
 
-// async function fun1() {
-//     return 123
-// }
+async function fun1() {
+    return 123
+}
 
-// console.log(fun1()); // Promise { 123 }
-// fun1().then(res => { console.log(res); }) // 123
+console.log(fun1()); // Promise { 123 }
+fun1().then(res => { console.log(res); }) // 123
 
-// async function fun2() {
-//     return new Promise(resolve => { resolve("321") })
-// }
-// console.log(fun2()); // Promise { <pending> }
-// fun2().then(res => { console.log(res); }) // 321
+async function fun2() {
+    return new Promise(resolve => { resolve("321") })
+}
+console.log(fun2()); // Promise { <pending> }
+fun2().then(res => { console.log(res); }) // 321
 
 
-// async function fun3() {
-//     return { then(resolve, reject) { reject("777") } }
-// }
-// console.log(fun3()); // Promise { <pending> }
-// fun3().catch(err => { console.log(err) }) // 777
+async function fun3() {
+    return { then(resolve, reject) { reject("777") } }
+}
+console.log(fun3()); // Promise { <pending> }
+fun3().catch(err => { console.log(err) }) // 777
 
-// async function fun4() {
-//     throw "aaa"
-// }
-// console.log(fun4()); // Promise { <rejected> 'aaa' }
-// fun4().catch(err => { console.log(err) }) // aaa
+async function fun4() {
+    throw "aaa"
+}
+console.log(fun4()); // Promise { <rejected> 'aaa' }
+fun4().catch(err => { console.log(err) }) // aaa
 
 
 

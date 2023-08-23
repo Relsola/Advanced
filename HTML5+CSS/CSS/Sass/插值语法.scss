@@ -1,0 +1,30 @@
+// 插值语法
+
+/* 
+   插值语法，格式是：#{expression}，它几乎可以用在SASS中任何地方，例如：
+    1. 样式规则的选择器 
+    2. 属性名称 
+    3. 变量 
+    4. 注释 
+    5. 其它地方
+
+*/
+
+
+@mixin position($name, $position, $topOrBottom, $leftOrRight) {
+    #{$name}.is-#{$position} {
+        position: $position;
+        #{$topOrBottom}: 0;
+        #{$leftOrRight}: 0;
+    }
+}
+
+@include position('.box', 'absolute', 'top', 'left');
+
+
+// 以上代码编译成
+.box.is-absolute {
+    position: "absolute";
+    top: 0;
+    left: 0;
+}

@@ -1,0 +1,29 @@
+// 类似混合方法，混合是直接把代码结果拿出来，而extend是把选择器提取出来，公共的代码写到一起。
+
+
+.animation {
+    transition: all .3s ease-out;
+
+    .hide {
+        transform: scale(0);
+    }
+}
+
+#main {
+    &:extend(.animation);
+}
+
+#con {
+    &:extend(.animation .hide);
+}
+
+/* 生成后的 CSS */
+.animation,
+#main {
+    transition: all .3s ease-out;
+}
+
+.animation .hide,
+#con {
+    transform: scale(0);
+}

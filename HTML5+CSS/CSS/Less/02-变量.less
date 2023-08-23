@@ -1,0 +1,141 @@
+// 减少重复代码的书写
+
+/* 
+   名称要求： 字母、数字、下划线、中横线 
+   首字母可以为数字，可以为纯数字 
+   区分大小写 
+   变量值随意
+*/
+
+
+// 值变量 --------------------------------------------------
+@color: #adf;
+@fontSize: 14px;
+@wrap: 1156px;
+
+header {
+    background-color: @color;
+    font-size: @fontSize;
+    width: @wrap;
+}
+
+
+
+
+// 变量运算 --------------------------------------------------
+header {
+    height: 100px+200px;
+}
+
+section {
+    height: 100px*2%; // 200px; 
+    width: 900/33px; //27.2727px;
+    // 如果只有一个有单位，则使用该单位
+}
+
+
+
+// 选择器变量 --------------------------------------------------
+/* Less */
+@mySelector: #wrap;
+@Wrap: wrap;
+
+@{mySelector} {
+    //变量名 必须使用大括号包裹
+    color: #999;
+    width: 50%;
+}
+
+.@{Wrap} {
+    color: #ccc;
+}
+
+#@{Wrap} {
+    color: #666;
+}
+
+/* 生成的 CSS */
+#wrap {
+    color: #999;
+    width: 50%;
+}
+
+.wrap {
+    color: #ccc;
+}
+
+#wrap {
+    color: #666;
+}
+
+
+// 属性变量 --------------------------------------------------
+/* Less */
+@borderStyle: border-style;
+@Solid: solid;
+
+#wrap {
+    @{borderStyle}: @Solid; //变量名 必须使用大括号包裹
+}
+
+/* 生成的 CSS */
+#wrap {
+    border-style: solid;
+}
+
+
+
+// url 变量 --------------------------------------------------
+/* Less */
+@images: "../img"; //需要加引号
+
+body {
+    background: url("@{images}/dog.png"); //变量名 必须使用大括号包裹
+}
+
+/* 生成的 CSS */
+body {
+    background: url("../img/dog.png");
+}
+
+
+// 声明变量 --------------------------------------------------
+
+/* 
+  结构: @name: { 属性: 值; } ;
+  使用：@name();
+*/
+
+/* Less */
+@background: {
+    background: red;
+}
+
+;
+
+#main {
+    @background();
+}
+
+@Rules: {
+    width: 200px;
+    height: 200px;
+    border: solid 1px red;
+}
+
+;
+
+#con {
+    @Rules();
+}
+
+/* 生成的 CSS */
+#main {
+    background: red;
+}
+
+#con {
+    width: 200px;
+    height: 200px;
+    border: solid 1px red;
+}

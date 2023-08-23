@@ -1,0 +1,42 @@
+// less 支持嵌套书写形式，反映层级和约束
+
+// 普通嵌套
+#app {
+    #header {
+        .logo {
+            color: white;
+        }
+
+        // &:代表上一层选择器的名字，此例便是header
+        &:after {
+            content: "hello";
+        }
+    }
+}
+
+
+
+
+// 媒体查询
+.left {
+    height: 500px;
+    background-color: #adb;
+
+    // >=1200
+    @media screen and(min-width:1200px) {
+        background: #6e4848;
+    }
+
+    // >=1200,<=900
+    @media screen and(max-width:1200px) and (min-width:900px) {
+        background: #baa;
+    }
+
+    //<900
+    @media screen and (max-width:900px) {
+        background: #abd;
+    }
+}
+
+
+

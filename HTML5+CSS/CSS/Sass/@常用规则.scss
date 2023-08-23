@@ -1,0 +1,233 @@
+// @mixin和@include -------------------------------------------------
+// SASS中的@mixin和@include经常配对使用的，@mixin负责定义，@include负责引用。 @mixin一般是用来定义一些经常会用到的代码，例如：ellipsis和clearfix等
+@mixin ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+@mixin clearfix {
+
+    &::before,
+    &::after {
+        display: table;
+        content: "";
+    }
+
+    &::after {
+        clear: both
+    }
+}
+
+// @mixin 也可以用来接收参数，甚至参数还可以使用默认值，当给参数定义默认值时，表示此参数为可选参数
+@mixin pc-center($margin: 0, $width: 1200px) {
+    margin: $margin auto;
+    width: $width;
+}
+
+// 使用参数默认值
+.box1 {
+    @include pc-center;
+}
+
+// 自定义参数
+.box2 {
+    @include pc-center(10px, 1000px);
+}
+
+// 显示传值：显示给$width传递值，而$margin依旧使用参数默认值
+.box3 {
+    @include pc-center($width: 1000px);
+}
+
+// 在@mixin中，也可以接收外部的内容，用@content来表示
+@mixin btn-hover {
+    :not(.is-disabled):hover {
+        @content;
+    }
+}
+
+.button {
+    @include btn-hover {
+        border-width: 2px;
+    }
+}
+
+// css 
+.button :not(.is-disabled):hover {
+    border-width: 2px;
+}
+
+
+
+
+// @for --------------------------------------
+/* 
+   SASS中的索引从1开始而不是0。 
+   SASS中的@for同样可以用来迭代，但它只能限制在一定的范围内，通常用来重复生成相同或者类似的样式，其公式有如下两种：
+    @for <variable>from <expression>to <expression>，不包含最后一个值，类似于[)。
+     
+    @for <variable>from <expression>through <expression>，包含最后一个值，类似于[]。 
+
+*/
+// 不包含3
+@for $i from 1 to 3 {
+    .item-#{$i} {
+        background-color: #58a;
+        font-size: 12px * $i;
+    }
+}
+
+// css
+.item-1 {
+    background-color: #58a;
+    font-size: 12px;
+}
+
+.item-2 {
+    background-color: #58a;
+    font-size: 24px;
+}
+
+
+
+
+// @if、@else --------------------------------------
+@mixin triangle($size, $color, $direction) {
+    border-color: transparent;
+    border-style: solid;
+    border-width: calc($size / 2);
+
+    @if $direction =='top' {
+        border-top-color: $color;
+    }
+
+    @else if ($direction =='bottom') {
+        border-bottom-color: $color;
+    }
+
+    @else {
+        @warn 'direction must be top, bottom, left or right'
+    }
+};
+
+.box {
+    @include triangle(10px, '#f60', 'right');
+}
+
+// @if和@else if也能使用SASS中的not、or和and
+@mixin triangle($size, $color, $direction) {
+    $directions: top, bottom, left, right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: calc($size / 2);
+
+    // index为全局内置函数，判断$direction是否在$directions值的集合中，是则返回索引，否则返回null
+    @if not index($directions, $direction) {
+        @warn 'direction must be top, bottom, left or right'
+    }
+
+    @else {
+        border-#{$direction}-color: $color;
+    }
+};
+
+.box {
+    @include triangle(10px, '#f60', 'right');
+}
+
+
+
+// @each --------------------------------------
+// SASS中的@each和JavaScript的forEach()类似。 SASS中的@each通常是用来迭代一个list或者map的，其公式为：@each <variable>in <expression>。
+// 这是一个list列表
+$sizes: 10px, 20px, 30px, 40px;
+
+@each $size in $sizes {
+    .box-#{$size} {
+        width: $size;
+        height: $size;
+    }
+}
+
+// 编译结果为
+.box-10px {
+    width: 10px;
+    height: 10px;
+}
+
+.box-20px {
+    width: 20px;
+    height: 20px;
+}
+
+.box-30px {
+    width: 30px;
+    height: 30px;
+}
+
+.box-40px {
+    width: 40px;
+    height: 40px;
+}
+
+// @each也可以用来迭代key/value形式的map结构
+$sizeMap: (
+    h1: 20px,
+    h2: 16px,
+    h3: 14px
+);
+
+@each $el,
+$size in $sizeMap {
+    #{$el} {
+        font-size: $size;
+    }
+}
+
+// 编译结果为
+h1 {
+    font-size: 20px;
+}
+
+h2 {
+    font-size: 16px;
+}
+
+h3 {
+    font-size: 14px;
+}
+
+// 甚至可以用来解构
+$statusList: (text, text, '#333'),
+    (button, pointer, '#ccc'),
+    (div, move, '#0000');
+
+@each $el,
+$pointer,
+$color in $statusList {
+    .is-#{$el} {
+        cursor: $pointer;
+        color: $color;
+    }
+}
+
+// 编译结果为
+.is-text {
+    cursor: text;
+    color: "#333";
+}
+
+.is-button {
+    cursor: pointer;
+    color: "#ccc";
+}
+
+.is-div {
+    cursor: move;
+    color: "#0000";
+}
+
+

@@ -1,0 +1,104 @@
+// SASS允许将一套CSS样式嵌套进另一套样式中，内层的样式将它外层的选择器作为父选择器，嵌套功能避免了重复输入父选择器，而且令复杂的 CSS 结构更易于管理
+
+
+// 普通嵌套 -------------------------------------
+// scss
+.box {
+    background-color: #fff;
+
+    .item {
+        background-color: #58a
+    }
+
+    p,
+    span {
+        font-size: 16px;
+    }
+}
+
+// css
+.box {
+    background-color: #fff;
+}
+
+.box .item {
+    background-color: #58a;
+}
+
+.box p,
+.box span {
+    font-size: 16px;
+}
+
+
+
+//  父级选择器(&) -------------------------------------
+// 基于嵌套规则，在SASS中有一个比较重要的选择器就是父级选择器(&)，在SASS中，它使用&代表外层的父级选择器，这让在复杂场景下重复父级选择器成为可能，例如：添加伪类，实现BEM等等。
+
+// scss
+.box {
+    &::after {
+        content: '';
+        display: inline-block;
+        width: 100px;
+        height: 3px;
+    }
+
+    &__item {
+        background-color: #58a;
+
+        &--title {
+            font-size: 16px;
+        }
+    }
+
+    &__row {
+        background-color: #f60;
+    }
+}
+
+// css
+.box::after {
+    content: "";
+    display: inline-block;
+    width: 100px;
+    height: 3px;
+}
+
+.box__item {
+    background-color: #58a;
+}
+
+.box__item--title {
+    font-size: 16px;
+}
+
+.box__row {
+    background-color: #f60;
+}
+
+
+
+// 占位符选择器(%) -------------------------------------
+/* 
+   当我们在撰写一些样式库的时候，有些样式我们并不关心具体的样式名，只关心样式的内容，此时可以通过占位符选择器(%)来实现。
+     占位符选择器的好处是： 
+       在不通过@extend引用的时候不会编译到最终的css代码中
+       不用强制外部用户遵循样式库的样式命名。
+*/
+%ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: no-wrap;
+}
+
+// 不引用，占位符代码不编译
+.title {
+    font-size: 14px;
+}
+
+// 引用，占位符代码编译
+.title {
+    @extend %ellipsis;
+    font-size: 14px;
+}
