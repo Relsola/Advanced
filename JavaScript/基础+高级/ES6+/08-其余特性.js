@@ -12,7 +12,7 @@
 
 // 7. Object.fromEntries() 与 Object.entries() 相反
 
-// 8. String.trimStart()  String.trimEnd()  String.trim()
+// 8. String.trimStart()  String.trimEnd()  String.trim() // 去空格
 
 // 9. BigInt let bigInt = 9007199254740992n; Number.MAX_SAFE_INTEGER
 
