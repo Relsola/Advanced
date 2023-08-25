@@ -56,5 +56,33 @@
 
 
 {
-    // 
+    // 节流(throttle): 所谓节流，就是指连续触发事件但是在 n 秒中只执行一次函数。节流会稀释函数的执行频率。
+
+    // 时间戳版
+    function throttle(func, wait) {
+        // 时间戳版
+        let previous = 0;
+        return function () {
+            // let now =+new Date();
+            let now = Date.now();
+            if (now - previous > wait) {
+                previous = now;
+                func.apply(this, arguments)
+            }
+        }
+    }
+
+    // 定时器版
+    function throttle(func, wait) {
+        let timer = null;
+        return function () {
+            let context = this;
+            if (timer === null) {
+                timer = setTimeout(() => {
+                    timer = null;
+                    func.apply(context, arguments)
+                }, wait)
+            }
+        }
+    }
 }
