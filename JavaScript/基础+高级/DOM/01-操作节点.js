@@ -57,17 +57,23 @@
 
 // 节点的创建和挂载
 {
+    // 创建节点
+    document.write()
+    innerHTML
+    createElement()
+    appendChild()
+
     // 创建一个元素
-    document.createElement('span')
+    const h1 = document.createElement('span')
 
     // 挂载元素
     // 把创建好的span元素挂载到father元素里
-    father.append(h11); // 挂载在father节点内部的尾部
-    father.prepend(h11); // 挂载在father节点内部的头部
+    father.append(h1); // 挂载在father节点内部的尾部
+    father.prepend(h1); // 挂载在father节点内部的头部
 
     //同一个元素只能挂载一次，后面的会覆盖掉前面的
-    father.before(h11); // 挂载在father节点外部的头部
-    father.after(h11); // 挂载在father节点外部的尾部
+    father.before(h1); // 挂载在father节点外部的头部
+    father.after(h1); // 挂载在father节点外部的尾部
 }
 
 // 操作节点
