@@ -24,15 +24,15 @@ const MultiplicationMethod = (principal: number = 10000, wager: number = 200, p:
     return principal;
 };
 
-let num = 20;
+let num = 100;
 let win = 0, _ = 0, max = 10000, min = 10000, principal;
 while (num > 0) {
     principal = MultiplicationMethod(10000, 200, 0.5, 2, 100, true)
-    if (num === 20) min = max = principal;
+    if (num === 100) min = max = principal;
     max = Math.max(max, principal);
     min = Math.min(min, principal);
     if (principal > 10000) win++
     if (principal < 10000) _++
     num--
 };
-console.log(`不开启负债，20次倍投，本金10000，初始赌注200，胜率50%，最多赌100次，赢了${win}次，输了${_}次，最高${max},最低${min}`);
+console.log(`开启负债，100次倍投，本金10000，初始赌注200，胜率50%，最多赌100次，赢了${win}次，输了${_}次，最高${max},最低${min}`);

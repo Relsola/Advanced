@@ -61,7 +61,7 @@
     document.write()
     innerHTML
     createElement()
-    appendChild()
+
 
     // 创建一个元素
     const h1 = document.createElement('span')
@@ -74,6 +74,8 @@
     //同一个元素只能挂载一次，后面的会覆盖掉前面的
     father.before(h1); // 挂载在father节点外部的头部
     father.after(h1); // 挂载在father节点外部的尾部
+
+    appendChild()
 }
 
 // 操作节点
