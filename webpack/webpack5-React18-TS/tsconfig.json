@@ -1,0 +1,50 @@
+{
+    "compilerOptions": {
+        "target": "ESNext", // 最新的 ECMAScript 标准
+        "lib": [
+            "DOM",
+            "DOM.Iterable",
+            "ESNext"
+        ],
+        "allowJs": false, // 禁止编译器编译 JavaScript 文件
+        "skipLibCheck": false, // 对导入的库文件进行类型检查
+        "removeComments": true, // 移除编译后的代码中的注释
+        "esModuleInterop": false, // 禁用模块的默认导入和导出交互
+        "allowSyntheticDefaultImports": true, // 允许从没有默认导出的模块中默认导入
+        "strict": true, // 启用所有严格类型检查选项
+        "noUnusedLocals": true, // 有未使用的变量时，抛出错误
+        "forceConsistentCasingInFileNames": true, // 要求文件名的大小写一致
+        "module": "ESNext", // 指定模块生成的模式为 ESNext
+        "experimentalDecorators": true, // 开启装饰器使用
+        "moduleResolution": "Node", // 使用 Node.js 风格的模块解析策略
+        "resolveJsonModule": true, // 允许导入 JSON 文件作为模块
+        "isolatedModules": true, // 将每个文件作为单独的模块进行编译
+        "noEmit": true, // 不生成编译输出文件
+        "jsx": "react-jsx", // 使用 React 的 JSX 语法进行编译
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ],
+            "@hooks/*": [
+                "./src/hooks/*"
+            ],
+            "@assets/*": [
+                "./src/assets/*"
+            ],
+            "@pages/*": [
+                "./src/pages/*"
+            ],
+            "@utils/*": [
+                "./src/utils/*"
+            ]
+        }
+    },
+    "include": [
+        "./src"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

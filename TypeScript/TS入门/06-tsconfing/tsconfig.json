@@ -43,7 +43,7 @@
     "noImplicitReturns": true, // 并不是所有函数里的代码都有返回值时，抛出错误
     "noFallthroughCasesInSwitch": true, // 报告 switch 语句的 fallthrough 错误。（即，不允许 switch 的 case 语句贯穿）
     /* 模块解析选项 */
-    "moduleResolution": "node", // 选择模块解析策略： 'node' (Node.js) or 'classic' (TypeScript pre-1.6)
+    "moduleResolution": "Node", // 选择模块解析策略： 'node' (Node.js) or 'classic' (TypeScript pre-1.6)
     "baseUrl": "./", // 用于解析非相对模块名称的基目录
     "paths": {}, // 模块名到基于 baseUrl 的路径映射的列表
     "rootDirs": [], // 根文件夹列表，其组合内容表示项目运行时的结构内容

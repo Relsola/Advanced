@@ -559,11 +559,11 @@
       (?!exp)	负向前瞻	匹配后面不满足表达式exp的位置
     */
     const str = 'He, Hi, I am Hi.';
-    // 后面一定要匹配什么
+    // 一定要匹配什么
     const reg1 = /H(?=i)/g;
     console.log(str.replace(reg1, "T")); //He, Ti, I am Ti.
 
-    // 后面一定不要匹配什么
+    // 一定不要匹配什么
     const reg2 = /H(?!i)/g;
     console.log(str.replace(reg2, "T")); //Te, Hi, I am Hi.
 }

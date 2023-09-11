@@ -1,4 +1,4 @@
-const arr = [1, 2, [1, 2, [1, 2]], 7, 8, [7, [8, [1, 2, 3, ["he"]], "hello"]], "world"];
+const arr = [1, 2, [1, 2, [{ a: 1 }, [1]]], [], 7, [7, [8, [1, 3, ["he"]], "hello"]], "world"];
 
 {
     // 1.常用，简洁 -------------------------------------------------------
@@ -52,7 +52,7 @@ const arr = [1, 2, [1, 2, [1, 2]], 7, 8, [7, [8, [1, 2, 3, ["he"]], "hello"]], "
 
 {
     // 限制类型 且对里面的空数组无能为力 -------------------------------------------------------
-    console.log(arr.toString().split(',').map(i => Number(i)));
+    console.log(arr.toString().split(/,,?/g).map(i => Number(i)));
 
-    console.log(JSON.parse("[" + JSON.stringify(arr).replace(/(\[|\])/g, "") + "]"));
+    console.log(JSON.parse(JSON.stringify(arr).replace(/(?!^\[|\]$)(?:\[\]?,?|\])/g, "")));
 }
