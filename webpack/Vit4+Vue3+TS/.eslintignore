@@ -1,0 +1,6 @@
+node_modules
+dist
+public
+publish
+.eslintrc.cjs
+pnpm-lock.yaml
