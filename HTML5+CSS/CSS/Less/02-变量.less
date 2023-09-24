@@ -33,7 +33,16 @@ section {
     // 如果只有一个有单位，则使用该单位
 }
 
+@width: 300px;
+@color: #222;
 
+#wrap {
+    width: @width - 20;
+    height: @width - 20*5;
+    margin: (@width - 20)*5;
+    color: @color*2;
+    background-color: @color + #111;
+}
 
 // 选择器变量 --------------------------------------------------
 /* Less */

@@ -45,7 +45,7 @@
                 if (callNow) func.apply(context, arguments)
             }
             : function () {
-                let context = this;
+                const context = this;
                 if (timer !== null) clearTimeout(timer);
                 timer = setTimeout(() => {
                     func.apply(context, arguments)

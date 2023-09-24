@@ -521,13 +521,13 @@
         const str = 'hello world hello';
         const reg1 = /hello/;
         const reg2 = /hello/g;
-        const reg3 = /(he)llo/;
+        const reg3 = /(?:he)l(lo)/;
         const reg4 = /(he)llo/g;
 
-        console.log(str.match(reg1));
-        console.log(str.match(reg2));
-        console.log(str.match(reg3));
-        console.log(str.match(reg4));
+        console.log(str.match(reg1)); // => [hello]
+        console.log(str.match(reg2)); // => [hello, hello]
+        console.log(str.match(reg3)); // => [hello, lo]
+        console.log(str.match(reg4)); // => [hello, hello]
     }
 
     {
