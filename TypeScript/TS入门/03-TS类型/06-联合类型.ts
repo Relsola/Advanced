@@ -4,10 +4,10 @@
 */
 
 {
-    let myFavoriteNumber: string | number;
-    myFavoriteNumber = 'seven'; // OK
-    myFavoriteNumber = 7; // OK
+	let myFavoriteNumber: string | number;
+	myFavoriteNumber = "seven"; // OK
+	myFavoriteNumber = 7; // OK
 
-    let num: 0 | 1 = 1;
-    type EventNames = 'click' | 'scroll' | 'mousemove';
+	let num: 0 | 1 = 1;
+	type EventNames = "click" | "scroll" | "mousemove";
 }

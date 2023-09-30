@@ -28,55 +28,56 @@
   建议：公共的用 interface 实现，不能用 interface 实现的再用 type 实现
 */
 
-
 // interface
 {
-    interface Point { x: number }
+	interface Point {
+		x: number;
+	}
 
-    interface Point { y: number }
+	interface Point {
+		y: number;
+	}
 
-    interface SetPoint {
-        (x: number, y: number): void
-    }
+	interface SetPoint {
+		(x: number, y: number): void;
+	}
 
-    const point: Point = { x: 1, y: 2 }
+	const point: Point = { x: 1, y: 2 };
 }
 
-
-// Type 
+// Type
 {
-    // primitive
-    type Name = string
+	// primitive
+	type Name = string;
 
-    // object
-    type PartialPointX = { x: number }
-    type PartialPointY = { y: number }
-    type SetPointType = (x: number, y: number) => void
+	// object
+	type PartialPointX = { x: number };
+	type PartialPointY = { y: number };
+	type SetPointType = (x: number, y: number) => void;
 
-    // union
-    type PartialPoint = PartialPointX | PartialPointY;
+	// union
+	type PartialPoint = PartialPointX | PartialPointY;
 
-    // tuple
-    type Data = [number, string];
+	// tuple
+	type Data = [number, string];
 
-    // dom
-    let div = document.createElement('div');
-    type B = typeof div;
+	// dom
+	let div = document.createElement("div");
+	type B = typeof div;
 
-    // 映射
-    type Keys = "name" | "age"
-    type DudeType = {
-        [key in Keys]: string | number
-    }
-    const tom: DudeType = {
-        name: "Tom",
-        age: 18
-    }
+	// 映射
+	type Keys = "name" | "age";
+	type DudeType = {
+		[key in Keys]: string | number;
+	};
+	const tom: DudeType = {
+		name: "Tom",
+		age: 18
+	};
 }
 
-
 {
-    /* 
+	/* 
       扩展
         两者的扩展方式不同，但并不互斥
         接口可以扩展类型别名，同理，类型别名也可以扩展接口
@@ -84,31 +85,39 @@
         接口的扩展就是继承，通过 extends 来实现
         类型别名的扩展就是交叉类型，通过 & 来实现
     */
-    {
-        // 接口扩展接口
-        interface PointX { x: number }
+	{
+		// 接口扩展接口
+		interface PointX {
+			x: number;
+		}
 
-        interface Point extends PointX { y: number }
+		interface Point extends PointX {
+			y: number;
+		}
 
-        let point: Point = { x: 1, y: 2 }
-    }
+		let point: Point = { x: 1, y: 2 };
+	}
 
-    {
-        // 类型别名扩展类型别名
-        type PointX = { x: number }
-        type Point = PointX & { y: number }
-        let point: Point = { x: 1, y: 2 }
-    }
+	{
+		// 类型别名扩展类型别名
+		type PointX = { x: number };
+		type Point = PointX & { y: number };
+		let point: Point = { x: 1, y: 2 };
+	}
 
-    {
-        // 接口扩展类型别名
-        type PointX = { x: number }
-        interface Point extends PointX { y: number }
-    }
+	{
+		// 接口扩展类型别名
+		type PointX = { x: number };
+		interface Point extends PointX {
+			y: number;
+		}
+	}
 
-    {
-        // 类型别名扩展接口
-        interface PointX { x: number }
-        type Point = PointX & { y: number }
-    }
+	{
+		// 类型别名扩展接口
+		interface PointX {
+			x: number;
+		}
+		type Point = PointX & { y: number };
+	}
 }

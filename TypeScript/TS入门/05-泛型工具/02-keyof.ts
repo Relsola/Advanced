@@ -10,54 +10,58 @@
 */
 
 {
-    interface Person { name: string, age: number }
-    type K1 = keyof Person;  // "name" | "age"
-    type K2 = keyof []  // "length"  | "pop" | "push" ...
-    type K3 = keyof { [x: string]: Person }  // string | number
+	interface Person {
+		name: string;
+		age: number;
+	}
+	type K1 = keyof Person; // "name" | "age"
+	type K2 = keyof []; // "length"  | "pop" | "push" ...
+	type K3 = keyof { [x: string]: Person }; // string | number
 
-    let k1: K1 = 'name';
-    k1 = 'age';
+	let k1: K1 = "name";
+	k1 = "age";
 
-    let k2: K2 = 2; // 数组是数字索引
-    k2 = "join"
+	let k2: K2 = 2; // 数组是数字索引
+	k2 = "join";
 
-    let k3: K3 = 4
-    k3 = "this is string"
+	let k3: K3 = 4;
+	k3 = "this is string";
 }
-
 
 {
-    // keyof也支持基本数据类型：
-    let K1: keyof boolean; // let K1: "valueOf"
-    let K2: keyof number; // let K2: "toString" | "toFixed"  ...
-    let K3: keyof symbol; // let K1: "valueOf" ...
+	// keyof也支持基本数据类型：
+	let K1: keyof boolean; // let K1: "valueOf"
+	let K2: keyof number; // let K2: "toString" | "toFixed"  ...
+	let K3: keyof symbol; // let K1: "valueOf" ...
 }
-
 
 {
+	// 返回值是any
+	function prop(obj: object, key: string) {
+		return obj[key];
+	}
 
-    // 返回值是any
-    function prop(obj: object, key: string) { return obj[key] }
+	function props<T extends object, K extends keyof T>(
+		obj: T,
+		key: K
+	) {
+		return obj[key];
+	}
 
-    function props<T extends object, K extends keyof T>(obj: T, key: K) {
-        return obj[key]
-    }
+	type Todo = {
+		id: number;
+		text: string;
+		done: boolean;
+	};
 
-    type Todo = {
-        id: number
-        text: string
-        done: boolean
-    }
+	const todo: Todo = {
+		id: 1,
+		text: "learn typescript keyof",
+		done: false
+	};
 
-    const todo: Todo = {
-        id: 1,
-        text: "learn typescript keyof",
-        done: false
-    }
-
-    const id = props(todo, "id") // const id: number
-    const text = props(todo, "text") // const text: string
-    const done = props(todo, "done") // const done: boolean
-    // const date = props(todo, "date"); // Error
+	const id = props(todo, "id"); // const id: number
+	const text = props(todo, "text"); // const text: string
+	const done = props(todo, "done"); // const done: boolean
+	// const date = props(todo, "date"); // Error
 }
-

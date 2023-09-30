@@ -5,20 +5,20 @@
   且让代码提示变得更加丰富
 */
 {
-    const getValue = <T, K extends keyof T>(person: T, keys: K[]) =>
-        keys.map(key => person[key]) // T[K][]
+	const getValue = <T, K extends keyof T>(person: T, keys: K[]) =>
+		keys.map(key => person[key]); // T[K][]
 
-    interface Person {
-        name: string;
-        age: number;
-    }
+	interface Person {
+		name: string;
+		age: number;
+	}
 
-    const person: Person = {
-        name: 'tom',
-        age: 17
-    }
+	const person: Person = {
+		name: "tom",
+		age: 17
+	};
 
-    getValue(person, ['name', 'age']) // ['tom', 17]
+	getValue(person, ["name", "age"]); // ['tom', 17]
 
-    // getValue(person, ['gender']) // 报错 
+	// getValue(person, ['gender']) // 报错
 }

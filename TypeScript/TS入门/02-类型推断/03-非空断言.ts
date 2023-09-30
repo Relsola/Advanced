@@ -10,7 +10,7 @@
     // str.toString(); // Error
 
     str?.toString(); // OK
-    str?.toString(); // OK
+    str!.toString(); // OK
 
     type n = () => number;
 

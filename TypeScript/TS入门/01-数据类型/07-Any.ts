@@ -1,5 +1,5 @@
 {
-    /* 
+	/* 
        在 TypeScript 中，任何类型都可以被归为 any 类型。
        这让 any 类型成为了类型系统的顶级类型.
        
@@ -10,13 +10,13 @@
        变量如果在声明的时候，未指定其类型，那么它会被识别为任意值类型
     */
 
-    let a: string = "seven";
-    // a = 7;  // TS2322: Type 'number' is not assignable to type 'string'.
+	let a: string = "seven";
+	// a = 7;  // TS2322: Type 'number' is not assignable to type 'string'.
 
-    let b: any = "seven";
-    b = 7;
+	let b: any = "seven";
+	b = 7;
 
-    let c; // any
-    c = [7];
-    if (c.name === undefined) console.log(c[0]);
+	let c; // any
+	c = [7];
+	if (c.name === undefined) console.log(c[0]);
 }
