@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+	<style>
+		button {
+			width: 80px;
+			height: 40px;
+			background: skyblue;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app" class="active">
+		{{ msg }} &nbsp; once
+		<h1 class="black">{{ num }}</h1>
+		<h1 title="hello">{{ arr }}</h1>
+		<button id="add">+1</button>
+		<button id="reduce">-1</button>
+	</div>
+
+	<script src="./main.js" type="module"></script>
+</body>
+
+</html>

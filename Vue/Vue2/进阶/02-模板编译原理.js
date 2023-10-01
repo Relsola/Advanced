@@ -56,9 +56,9 @@ function start({ tagName, attrs }) {
 }
 
 // 对结束标签进行处理
-function end(tagName) {
+function end() {
 	// 栈结构 当遇到第一个结束标签时 会匹配到栈顶元素对应的ast 并取出来
-	const element = stack.pop();
+	stack.pop();
 	// 当前父元素就是栈顶的上一个元素
 	currentParent = stack.at(-1);
 }
@@ -252,7 +252,6 @@ function compileToFunctions(template) {
 	const render = new Function(`with(this){return ${code}}`);
 	return render;
 }
-
 
 const template = `<div id="app" class="active"><h1 id="h">{{ num }}</h1><button id="add"> +1 </button><button id="reduce"> -1 </button></div>`;
 
