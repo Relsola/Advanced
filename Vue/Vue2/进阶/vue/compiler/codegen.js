@@ -45,10 +45,8 @@ function gen(node) {
 }
 
 // 处理attrs属性
-function genProps(attrs) {
-	let str = "";
-	for (let i = 0; i < attrs.length; i++) {
-		let attr = attrs[i];
+function genProps(attrs, str = "") {
+	attrs.forEach(attr => {
 		// 对attrs属性里面的style做特殊处理
 		if (attr.name === "style") {
 			let obj = {};
@@ -59,7 +57,7 @@ function genProps(attrs) {
 			attr.value = obj;
 		}
 		str += `${attr.name}:${JSON.stringify(attr.value)},`;
-	}
+	});
 	return `{${str.slice(0, -1)}}`;
 }
 

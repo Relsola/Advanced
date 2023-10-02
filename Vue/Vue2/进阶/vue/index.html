@@ -15,12 +15,21 @@
 </head>
 
 <body>
-	<div id="app" class="active">
-		{{ msg }} &nbsp; once
-		<h1 class="black">{{ num }}</h1>
-		<h1 title="hello">{{ arr }}</h1>
-		<button id="add">+1</button>
-		<button id="reduce">-1</button>
+	<div id="app" class="active" style="background-color:black;color:white;">
+		<Demo></Demo>
+
+		<p>计算属性：{{ getTenNum }}</p>
+
+		<h2 class="black">{{ num }}</h2>
+		<h2 title="hello">{{ arr }}</h2>
+
+		<P>控制num:</P>
+		<button id="add" onclick="add()">+1</button>
+		<button id="reduce" onclick="reduce()">-1</button>
+
+		<p>控制arr:</p>
+		<button id="push" onclick="push()">+1</button>
+		<button id="pop" onclick="pop()">-1</button>
 	</div>
 
 	<script src="./main.js" type="module"></script>

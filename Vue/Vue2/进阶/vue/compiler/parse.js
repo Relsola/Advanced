@@ -14,7 +14,7 @@ const attribute =
 
 // 代表根节点 和 当前父节点
 let root = null,
-	currentParent = null;
+	currentParent;
 // 栈结构 先进后出 来表示开始和结束标签
 const stack = [];
 // 标识元素和文本type
@@ -36,7 +36,7 @@ function start({ tagName, attrs }) {
 	const element = createASTElement(tagName, attrs);
 	root = root ?? element;
 	// 建立parent和children关系
-	if (currentParent !== null) {
+	if (currentParent) {
 		// 只赋予了parent属性
 		element.parent = currentParent;
 		// 还需要让父亲记住自己
@@ -56,18 +56,20 @@ function end() {
 
 // 对文本进行处理
 function chars(text) {
-  // 去掉空格
-  text = text.replace(/\s/g, "");
-  text = text.replace(/&nbsp;/g, " ");
-  if (text !== "") 
-    currentParent.children.push({
-      type: TEXT_TYPE,
-      text,
-    });
+	// 去掉空格
+	text = text.replace(/\s/g, "");
+	text = text.replace(/&nbsp;/g, " ");
+	if (text !== "")
+		currentParent.children.push({
+			type: TEXT_TYPE,
+			text
+		});
 }
 
 // 解析标签生成ast核心
 export function parse(html) {
+	root = null;
+	currentParent = undefined;
 	while (html) {
 		// 查找 <
 		const textEnd = html.indexOf("<");
@@ -132,7 +134,7 @@ export function parse(html) {
 
 			// 如果不是开始标签的结束
 			if (end) advance(end[0].length);
-			
+
 			return match;
 		}
 		return false;
@@ -142,6 +144,7 @@ export function parse(html) {
 	function advance(n) {
 		html = html.substring(n);
 	}
+
 	// 返回生成的ast
 	return root;
 }
