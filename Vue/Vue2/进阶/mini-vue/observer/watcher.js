@@ -2,19 +2,20 @@ import { pushTarget, popTarget } from "./dep.js";
 import { queueWatcher } from "./scheduler.js";
 import { isObject } from "../util/index.js";
 
-// 全局变量id  每次new Watcher都会自增
-let id = 0;
-
 export default class Watcher {
+	// 唯一id  每次new Watcher都会自增
+	static id = 0;
 	constructor(vm, exprOrFn, cb, options) {
+		// Vue实例
 		this.vm = vm;
+		// 表达式
 		this.exprOrFn = exprOrFn;
 		// 回调函数 比如在watcher更新之前可以执行beforeUpdate方法
 		this.cb = cb;
 		// 额外的选项 true代表渲染watcher
 		this.options = options;
 		// watcher的唯一标识
-		this.id = id++;
+		this.id = Watcher.id++;
 		// 存放dep的容器
 		this.deps = [];
 		// 用来去重dep
@@ -27,22 +28,20 @@ export default class Watcher {
 		this.dirty = this.lazy;
 
 		// 如果表达式是一个函数
-		if (typeof exprOrFn === "function") {
-			this.getter = exprOrFn;
-		} else {
+		if (typeof exprOrFn === "function") this.getter = exprOrFn;
+		else {
 			this.getter = function () {
-				// 用户 watcher 传过来的可能是一个字符串   类似a.a.a.a.b
-				let path = exprOrFn.split(".");
+				// 用户 watcher 传过来的可能是一个字符串
+				const path = exprOrFn.split(".");
 				let obj = vm;
-				for (let i = 0; i < path.length; i++) {
-					obj = obj[path[i]]; //vm.a.a.a.a.b
-				}
+				for (const key of path) obj = obj[key];
 				return obj;
 			};
 		}
 
-		// 实例化就进行一次取值操作 进行依赖收集过程
-		this.value = this.get();
+		// 实例化就进行一次取值保留操作 进行依赖收集过程
+		// 计算属性实例化的时候不会去调用get
+		this.value = this.lazy ? undefined : this.get();
 	}
 
 	get() {
@@ -87,21 +86,19 @@ export default class Watcher {
 	depend() {
 		// 计算属性的watcher存储了依赖项的dep
 		let i = this.deps.length;
-		while (i--) {
-			this.deps[i].depend(); //调用依赖项的dep去收集渲染watcher
-		}
+		// 调用依赖项的dep去收集渲染watcher
+		while (i--) this.deps[i].depend();
 	}
 
 	run() {
 		const newVal = this.get(); // 新值
 		const oldVal = this.value; // 老值
 
-		this.value = newVal; //现在的新值将成为下一次变化的老值
-		if (this.user) {
-			// 如果两次的值不相同  或者值是引用类型 因为引用类型新老值是相等的 他们是指向同一引用地址
-			if (newVal !== oldVal || isObject(newVal)) {
-				this.cb.call(this.vm, newVal, oldVal);
-			}
+		// 现在的新值将成为下一次变化的老值
+		this.value = newVal;
+		if (this.user && (newVal !== oldVal || isObject(newVal))) {
+			// 如果两次的值不相同  或者值是引用类型 执行回调函数
+			this.cb.call(this.vm, newVal, oldVal);
 		} else {
 			// 渲染watcher
 			this.cb.call(this.vm);

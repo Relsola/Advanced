@@ -41,13 +41,16 @@ export function patch(oldVnode, vnode) {
 		// 不符合上面两种 代表标签一致 并且不是文本节点
 		// 为了节点复用 所以直接把旧的虚拟dom对应的真实dom赋值给新的虚拟dom的el属性
 		const el = (vnode.el = oldVnode.el);
-		updateProperties(vnode, oldVnode.data); // 更新属性
+		// 更新属性
+		updateProperties(vnode, oldVnode.data);
 
-		const oldCh = oldVnode.children || []; // 老节点的子元素
-		const newCh = vnode.children || []; // 新节点的子元素
+		// 老节点的子元素
+		const oldCh = oldVnode.children || [];
+		// 新节点的子元素
+		const newCh = vnode.children || [];
 
 		if (oldCh.length > 0 && newCh.length > 0) {
-			// 新老都存在子节点
+			// 新老节点都存在子节点
 			updateChildren(el, oldCh, newCh);
 		} else if (oldCh.length > 0 && newCh.length === 0) {
 			// 老节点有子节点 新节点无子节点
@@ -61,7 +64,7 @@ export function patch(oldVnode, vnode) {
 
 // 虚拟dom转成真实dom 就是调用原生方法生成dom树
 function createElm(vnode) {
-	let { tag, data, key, children, text } = vnode;
+	const { tag, data, key, children, text } = vnode;
 	// 判断虚拟dom 是元素节点还是文本节点
 	if (typeof tag === "string") {
 		// 如果是组件 返回真实组件渲染的真实dom
@@ -93,30 +96,21 @@ function updateProperties(vnode, oldProps = {}) {
 	const el = vnode.el;
 
 	// 如果新的节点没有 需要把老的节点属性移除
-	for (const k in oldProps) {
-		if (!newProps[k]) {
-			el.removeAttribute(k);
-		}
-	}
+	for (const k in oldProps) if (!newProps[k]) el.removeAttribute(k);
 
 	// 对style样式做特殊处理 如果新的没有 需要把老的style值置为空
 	const newStyle = newProps.style || {};
 	const oldStyle = oldProps.style || {};
-	for (const key in oldStyle) {
-		if (!newStyle[key]) {
-			el.style[key] = "";
-		}
-	}
+	for (const key in oldStyle)
+		if (!newStyle[key]) el.style[key] = "";
 
 	// 遍历新的属性 进行增加操作
 	for (const key in newProps) {
-		if (key === "style") {
-			for (const styleName in newProps.style) {
+		if (key === "style")
+			for (const styleName in newProps.style)
 				el.style[styleName] = newProps.style[styleName];
-			}
-		} else if (key === "class") {
-			el.className = newProps.class;
-		} else {
+		else if (key === "class") el.className = newProps.class;
+		else {
 			// 给这个元素添加属性 值就是对应的值
 			if (!el) return;
 			el.setAttribute(key, newProps[key]);
@@ -130,7 +124,8 @@ function createComponent(vnode) {
 	// 创建组件实例
 	let i = vnode.data;
 
-	// 下面这句话很关键 调用组件data.hook.init方法进行组件初始化过程 最终组件的vnode.componentInstance.$el就是组件渲染好的真实dom
+	// 调用组件data.hook.init方法进行组件初始化过程
+  // 最终组件的vnode.componentInstance.$el就是组件渲染好的真实dom
 	if ((i = i.hook) && (i = i.init)) i(vnode);
 
 	// 如果组件实例化完毕有componentInstance属性 那证明是组件
@@ -138,8 +133,11 @@ function createComponent(vnode) {
 }
 
 // 判断两个vnode的标签和key是否相同 如果相同 就可以认为是同一节点就地复用
-const isSameVnode = (oldVnode, newVnode) =>
-	oldVnode.tag === newVnode.tag && oldVnode.key === newVnode.key;
+function isSameVnode(oldVnode, newVnode) {
+	return (
+		oldVnode.tag === newVnode.tag && oldVnode.key === newVnode.key
+	);
+}
 
 // diff算法核心 采用双指针的方式 对比新老vnode的儿子节点
 function updateChildren(parent, oldCh, newCh) {
@@ -158,7 +156,7 @@ function updateChildren(parent, oldCh, newCh) {
 	let newEndIndex = newCh.length - 1;
 	let newEndVnode = newCh[newEndIndex];
 
-	// 根据key来创建老的儿子的index映射表  类似 {'a':0,'b':1} 代表key为'a'的节点在第一个位置 key为'b'的节点在第二个位置
+	// 根据key来创建老节点子节点的index映射表
 	function makeIndexByKey(children) {
 		let map = {};
 		children.forEach((item, index) => {
@@ -167,9 +165,9 @@ function updateChildren(parent, oldCh, newCh) {
 		return map;
 	}
 	// 生成的映射表
-	let map = makeIndexByKey(oldCh);
+	const map = makeIndexByKey(oldCh);
 
-	// 只有当新老节点子节点的双指标的起始位置不大于结束位置的时候  才能循环 一方停止了就需要结束循环
+	// 只有当新老儿子的双指标的起始位置不大于结束位置的时候  才能循环 一方停止了就需要结束循环
 	while (
 		oldStartIndex <= oldEndIndex &&
 		newStartIndex <= newEndIndex
@@ -181,21 +179,23 @@ function updateChildren(parent, oldCh, newCh) {
 			oldEndVnode = oldCh[--oldEndIndex];
 		} else if (isSameVnode(oldStartVnode, newStartVnode)) {
 			// 头和头对比 依次向后追加
-			patch(oldStartVnode, newStartVnode); //递归比较儿子以及他们的子节点
+			// 递归比较子节点以及他们的子节点
+			patch(oldStartVnode, newStartVnode);
 			oldStartVnode = oldCh[++oldStartIndex];
 			newStartVnode = newCh[++newStartIndex];
 		} else if (isSameVnode(oldEndVnode, newEndVnode)) {
-			//尾和尾对比 依次向前追加
+			// 尾和尾对比 依次向前追加
 			patch(oldEndVnode, newEndVnode);
 			oldEndVnode = oldCh[--oldEndIndex];
 			newEndVnode = newCh[--newEndIndex];
 		} else if (isSameVnode(oldStartVnode, newEndVnode)) {
 			// 老的头和新的尾相同 把老的头部移动到尾部
 			patch(oldStartVnode, newEndVnode);
+			// insertBefore 移动或者插入真实dom
 			parent.insertBefore(
 				oldStartVnode.el,
 				oldEndVnode.el.nextSibling
-			); //insertBefore可以移动或者插入真实dom
+			);
 			oldStartVnode = oldCh[++oldStartIndex];
 			newEndVnode = newCh[--newEndIndex];
 		} else if (isSameVnode(oldEndVnode, newStartVnode)) {
@@ -215,15 +215,18 @@ function updateChildren(parent, oldCh, newCh) {
 					oldStartVnode.el
 				);
 			} else {
-				const moveVnode = oldCh[moveIndex]; //找得到就拿到老的节点
-				oldCh[moveIndex] = undefined; //这个是占位操作 避免数组塌陷  防止老节点移动走了之后破坏了初始的映射表位置
-				parent.insertBefore(moveVnode?.el, oldStartVnode.el); //把找到的节点移动到最前面
+				// 找得到就拿到老的节点
+				const moveVnode = oldCh[moveIndex];
+				// 占位操作 避免数组塌陷  防止老节点移动走了之后破坏了初始的映射表位置
+				oldCh[moveIndex] = undefined;
+				// 把找到的节点移动到最前面
+				parent.insertBefore(moveVnode.el, oldStartVnode.el);
 				patch(moveVnode, newStartVnode);
 			}
 		}
 	}
 
-	// 如果老节点循环完毕了 但是新节点还有  证明  新节点需要被添加到头部或者尾部
+	// 如果老节点循环完毕了 但是新节点还有  新节点需要被添加到头部或者尾部
 	if (newStartIndex <= newEndIndex) {
 		for (let i = newStartIndex; i <= newEndIndex; i++) {
 			// 这是一个优化写法 insertBefore的第一个参数是null等同于appendChild作用
@@ -235,13 +238,9 @@ function updateChildren(parent, oldCh, newCh) {
 		}
 	}
 
-	// 如果新节点循环完毕 老节点还有  证明老的节点需要直接被删除
+	// 如果新节点循环完毕 老节点还有  老节点需要直接被删除
 	if (oldStartIndex <= oldEndIndex) {
-		for (let i = oldStartIndex; i <= oldEndIndex; i++) {
-			let child = oldCh[i];
-			if (child != undefined) {
-				parent.removeChild(child.el);
-			}
-		}
+		while (oldStartIndex++ <= oldEndIndex)
+			if (oldCh[i] != undefined) parent.removeChild(child.el);
 	}
 }

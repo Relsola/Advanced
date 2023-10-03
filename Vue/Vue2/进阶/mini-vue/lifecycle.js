@@ -8,8 +8,8 @@ export function mountComponent(vm, el) {
 	// 初始渲染之前
 	callHook(vm, "beforeMount");
 
-	// 这里注册一个渲染watcher 执行vm._update(vm._render())方法渲染视图
-	const updateComponent = () => {
+	// 注册一个渲染watcher 执行vm._update(vm._render())方法渲染视图
+	function updateComponent() {
 		// _update 和 _render 方法都是挂载在Vue原型的方法
 		// vm._render() 方法 调用生成的render函数 生成虚拟dom
 		// vm._update() 方法把虚拟dom渲染到页面
@@ -40,7 +40,7 @@ export function lifecycleMixin(Vue) {
 
 		// patch是渲染vnode为真实dom核心
 		// 更新时把上次的vnode和这次更新的vnode穿进去 进行diff算法
-		vm.$el = patch(prevVnode ?? vm.$el, vnode);
+		vm.$el = patch(prevVnode, vnode);
 	};
 }
 

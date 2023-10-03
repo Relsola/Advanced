@@ -19,7 +19,7 @@ const vm = new Vue({
 			data: () => ({
 				msg: "Hello Vue"
 			}),
-			template: `<h1>我是子组件 &nbsp; {{ msg }}</h1>`
+			template: `<h1>我是子组件 {{ msg }}</h1>`
 		}
 	},
 

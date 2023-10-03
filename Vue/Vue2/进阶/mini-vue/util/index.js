@@ -61,7 +61,8 @@ export function mergeOptions(parent, child) {
 
 // 组件 指令 过滤器的合并策略
 function mergeAssets(parentVal, childVal) {
-	const res = Object.create(parentVal); //比如有同名的全局组件和自己定义的局部组件 那么parentVal代表全局组件 自己定义的组件是childVal  首先会查找自已局部组件有就用自己的  没有就从原型继承全局组件  res.__proto__===parentVal
+	// 原型继承
+	const res = Object.create(parentVal);
 	if (childVal) {
 		for (const key in childVal)
 			res[key.toLocaleLowerCase()] = childVal[key];
@@ -74,18 +75,15 @@ ASSETS_TYPE.forEach(type => {
 	strats[type + "s"] = mergeAssets;
 });
 
+//判断是否是对象
 export function isObject(data) {
-	//判断是否是对象
-	if (typeof data !== "object" || data == null) {
-		return false;
-	}
-	return true;
+	return !(typeof data !== "object" || data == null);
 }
 
+// 判断是否是组件
 export function isReservedTag(tagName) {
-	//判断是不是常规html标签
 	// 定义常见标签
-	let str =
+	const str =
 		"html,body,base,head,link,meta,style,title," +
 		"address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section," +
 		"div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul," +
@@ -97,7 +95,7 @@ export function isReservedTag(tagName) {
 		"output,progress,select,textarea," +
 		"details,dialog,menu,menuitem,summary," +
 		"content,element,shadow,template,blockquote,iframe,tfoot";
-	let obj = {};
+	const obj = {};
 	str.split(",").forEach(tag => {
 		obj[tag] = true;
 	});

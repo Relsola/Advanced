@@ -1,4 +1,4 @@
-let callbacks = [];
+const callbacks = [];
 let pending = false;
 
 function flushCallbacks() {

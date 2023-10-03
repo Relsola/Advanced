@@ -13,7 +13,7 @@ export default class Vnode {
 
 // 创建元素vnode 等于render函数里面的 h=>h(App)
 export function createElement(vm, tag, data = {}, ...children) {
-	let key = data.key;
+	const key = data.key;
 
 	if (isReservedTag(tag)) {
 		// 如果是普通标签

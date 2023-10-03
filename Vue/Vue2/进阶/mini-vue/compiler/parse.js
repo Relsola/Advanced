@@ -58,7 +58,6 @@ function end() {
 function chars(text) {
 	// 去掉空格
 	text = text.replace(/\s/g, "");
-	text = text.replace(/&nbsp;/g, " ");
 	if (text !== "")
 		currentParent.children.push({
 			type: TEXT_TYPE,
@@ -115,7 +114,7 @@ export function parse(html) {
 				tagName: start[1],
 				attrs: []
 			};
-			//匹配到了开始标签 就截取掉
+			// 匹配到了开始标签 就截取掉
 			advance(start[0].length);
 
 			// 匹配属性 如果不是开始标签的结束 就一直匹配下去

@@ -1,41 +1,41 @@
 // 手写AJAX
 const xhr = new XMLHttpRequest();
 xhr.onreadystatechange = function () {
-    if (xhr.readyState !== 4) return;
-    if (xhr.status) {
-        // ...
-        console.log(xhr.response);
-    } else {
-        // ...
-        new Error(xhr.statusText)
-    }
+	if (xhr.readyState !== 4) return;
+	if (xhr.status) {
+		// ...
+		console.log(xhr.response);
+	} else {
+		// ...
+		new Error(xhr.statusText);
+	}
 };
 xhr.open("GET", url, true);
 xhr.send();
 
-
 // 使用Promise封装AJAX
 function ajax(methods, url, data) {
-    const xhr = new XMLHttpRequest();
-    return new Promise((resolve, reject) => {
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState !== 4) return;
-            if (xhr.status === 200) resolve(xhr.responseText);
-            else reject(xhr.statusText);
-        };
-        xhr.open(methods, url);
-        xhr.send(data)
-    })
+	const xhr = new XMLHttpRequest();
+	return new Promise((resolve, reject) => {
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState !== 4) return;
+			if (xhr.status === 200) resolve(xhr.responseText);
+			else reject(xhr.statusText);
+		};
+		xhr.open(methods, url);
+		xhr.send(data);
+	});
 }
 
-ajax('GET', '/get').then(data => {
-    // AJAX成功，拿到响应数据
-    console.log(data);
-}).catch(status => {
-    // AJAX失败，根据响应码判断失败原因
-    new Error(status)
-});
-
+ajax("GET", "/get")
+	.then(data => {
+		// AJAX成功，拿到响应数据
+		console.log(data);
+	})
+	.catch(status => {
+		// AJAX失败，根据响应码判断失败原因
+		new Error(status);
+	});
 
 /* 
   open(method,url,async) 方法 规定 请求的类型、URL 以及 是否异步处理请求。

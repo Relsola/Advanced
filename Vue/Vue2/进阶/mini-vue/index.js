@@ -9,8 +9,6 @@ function Vue(options) {
 	this._init(options);
 }
 
-// _init 方法挂载在Vue原型上 通过引入文件的方式进行原型挂载 有利于代码分割
-
 // 混入 _init
 initMixin(Vue);
 

@@ -7,7 +7,7 @@ export function renderMixin(Vue) {
 		const vm = this;
 		// 获取模板编译生成的render方法
 		const { render } = vm.$options;
-		// 生成vnode--虚拟dom
+		// 生成vnode --虚拟dom
 		const vnode = render.call(vm);
 		return vnode;
 	};

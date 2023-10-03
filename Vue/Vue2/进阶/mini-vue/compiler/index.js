@@ -11,5 +11,6 @@ export function compileToFunctions(template) {
 
 	// 3.通过ast 重新生成代码
 	const code = codegen(ast);
+	// 使用with语法改变作用域为this 方便render函数code里面的变量取值
 	return new Function(`with(this){return ${code}}`);
 }

@@ -11,15 +11,13 @@ export class Dep {
 
 	constructor() {
 		this.id = Dep.id++;
-		// 这个是存放watcher的容器
+		// 存放 watcher
 		this.subs = [];
 	}
 
 	depend() {
-		// 如果当前存在watcher
-		if (Dep.target) {
-			Dep.target.addDep(this); // 把自身dep实例存放在watcher里面
-		}
+		// 如果当前存在watcher 把自身dep实例存放在watcher里面
+		if (Dep.target) Dep.target.addDep(this);
 	}
 
 	notify() {
