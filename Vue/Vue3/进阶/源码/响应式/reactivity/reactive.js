@@ -21,6 +21,7 @@ export function reactive(target) {
 			return result;
 		}
 	});
+	observed.__v_isReadonly = true;
 	reactiveMap.set(target, observed);
 	return observed;
 }

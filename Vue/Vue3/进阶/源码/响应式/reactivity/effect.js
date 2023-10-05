@@ -1,7 +1,14 @@
-export function effect(fn) {
+export function effect(fn, options) {
 	// 保存回调函数
 	const _effect = new ReactiveEffect(fn);
-	_effect.run();
+	if (options) {
+		Object.assign(_effect, options);
+	}
+	if (!options || !options.lazy) {
+		_effect.run();
+	}
+	const runner = _effect.run.bind(_effect);
+	return runner;
 }
 
 const targetMap = new WeakMap();
@@ -46,12 +53,19 @@ export function triggerEffects(effects) {
 	// 执行回调函数
 	for (const effect of effects) {
 		if (effect.computed) {
-			effect.scheduler();
+			triggerEffect(effect);
 		}
 	}
 	for (const effect of effects) {
 		if (!effect.computed) {
-			effect.run();
+			triggerEffect(effect);
 		}
 	}
 }
+
+export function triggerEffect(effect) {
+	effect?.scheduler ? effect.scheduler() : effect.run();
+}
+
+export const isReactive = source =>
+	!!(source && source.__v_isReadonly);
