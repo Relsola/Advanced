@@ -32,7 +32,28 @@
         <button id="pop" onclick="pop()">-1</button>
     </div>
 
-    <script src="./index.js"></script>
+    <div class="root">
+        <h1>{{msg}}</h1>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            const script = document.createElement("script");
+            script.src = "./index.js"
+            document.body.appendChild(script);
+        }, 2000);
+    </script>
+
+    <!-- <script src="./index.js"></script>
+    <script>
+        const div = new Vue({
+            el: ".root",
+            data: () => ({
+                msg: 'Hello Vue'
+            }),
+        })
+        console.log(div);
+    </script> -->
 </body>
 
 </html>
