@@ -288,12 +288,7 @@ function mountComponent(vm, el) {
 	const updateComponent = () => {
 		vm._update(vm._render());
 	};
-	new Watcher(
-		vm,
-		updateComponent,
-		() => callHook(vm, "beforeUpdate"),
-		true
-	);
+	new Watcher(vm, updateComponent, () => callHook(vm, "beforeUpdate"), true);
 	callHook(vm, "mounted");
 }
 
@@ -353,8 +348,7 @@ function initState(vm) {
 }
 function initData(vm) {
 	let data = vm.$options.data;
-	data = vm._data =
-		typeof data === "function" ? data.call(vm) : data || {};
+	data = vm._data = typeof data === "function" ? data.call(vm) : data || {};
 	for (const key in data) proxy(vm, `_data`, key);
 	observe(data);
 }
@@ -390,8 +384,7 @@ function initComputed(vm) {
 	const watchers = (vm._computedWatchers = {});
 	for (const key in computed) {
 		const userDef = computed[key];
-		const getter =
-			typeof userDef === "function" ? userDef : userDef.get;
+		const getter = typeof userDef === "function" ? userDef : userDef.get;
 		watchers[key] = new Watcher(vm, getter, () => {}, {
 			lazy: true
 		});
@@ -421,21 +414,14 @@ function createComputedGetter(key) {
 }
 function createElement(vm, tag, data = {}, ...children) {
 	let key = data.key;
-	if (isReservedTag(tag))
-		return new Vnode(tag, data, key, children);
+	if (isReservedTag(tag)) return new Vnode(tag, data, key, children);
 	else {
 		const Ctor = vm.$options.components[tag];
 		return createComponent(vm, tag, data, key, children, Ctor);
 	}
 }
 function createTextNode(text) {
-	return new Vnode(
-		undefined,
-		undefined,
-		undefined,
-		undefined,
-		text
-	);
+	return new Vnode(undefined, undefined, undefined, undefined, text);
 }
 function createComponent(vm, tag, data, key, children, Ctor) {
 	if (isObject(Ctor)) Ctor = vm.$options._base.extend(Ctor);
@@ -448,13 +434,7 @@ function createComponent(vm, tag, data, key, children, Ctor) {
 		}
 	};
 
-	return new Vnode(
-		`vue-component${tag}`,
-		data,
-		key,
-		undefined,
-		undefined
-	);
+	return new Vnode(`vue-component${tag}`, data, key, undefined, undefined);
 }
 function patch(oldVnode, vnode) {
 	if (!oldVnode) return createElm(vnode);
@@ -468,10 +448,7 @@ function patch(oldVnode, vnode) {
 		return el;
 	} else {
 		if (oldVnode.tag !== vnode.tag) {
-			oldVnode.el.parentNode.replaceChild(
-				createElm(vnode),
-				oldVnode.el
-			);
+			oldVnode.el.parentNode.replaceChild(createElm(vnode), oldVnode.el);
 		}
 		if (!oldVnode.tag && oldVnode.text !== vnode.text)
 			oldVnode.el.textContent = vnode.text;
@@ -481,8 +458,7 @@ function patch(oldVnode, vnode) {
 		const newCh = vnode.children || [];
 		if (oldCh.length > 0 && newCh.length > 0)
 			updateChildren(el, oldCh, newCh);
-		else if (oldCh.length > 0 && newCh.length === 0)
-			el.innerHTML = "";
+		else if (oldCh.length > 0 && newCh.length === 0) el.innerHTML = "";
 		else if (oldCh.length === 0 && newCh.length)
 			newCh.forEach(child => el.appendChild(createElm(child)));
 	}
@@ -490,13 +466,10 @@ function patch(oldVnode, vnode) {
 function createElm(vnode) {
 	let { tag, data, key, children, text } = vnode;
 	if (typeof tag === "string") {
-		if (createComponents(vnode))
-			return vnode.componentInstance.$el;
+		if (createComponents(vnode)) return vnode.componentInstance.$el;
 		vnode.el = document.createElement(tag);
 		updateProperties(vnode);
-		children.forEach(child =>
-			vnode.el.appendChild(createElm(child))
-		);
+		children.forEach(child => vnode.el.appendChild(createElm(child)));
 	} else vnode.el = document.createTextNode(text);
 	return vnode.el;
 }
@@ -506,8 +479,7 @@ function updateProperties(vnode, oldProps = {}) {
 	for (const k in oldProps) if (!newProps[k]) el.removeAttribute(k);
 	const newStyle = newProps.style || {};
 	const oldStyle = oldProps.style || {};
-	for (const key in oldStyle)
-		if (!newStyle[key]) el.style[key] = "";
+	for (const key in oldStyle) if (!newStyle[key]) el.style[key] = "";
 	for (const key in newProps) {
 		if (key === "style")
 			for (const styleName in newProps.style)
@@ -525,9 +497,7 @@ function createComponents(vnode) {
 	if (vnode.componentInstance) return true;
 }
 function isSameVnode(oldVnode, newVnode) {
-	return (
-		oldVnode.tag === newVnode.tag && oldVnode.key === newVnode.key
-	);
+	return oldVnode.tag === newVnode.tag && oldVnode.key === newVnode.key;
 }
 function updateChildren(parent, oldCh, newCh) {
 	let oldStartIndex = 0;
@@ -544,10 +514,7 @@ function updateChildren(parent, oldCh, newCh) {
 		return map;
 	}
 	let map = makeIndexByKey(oldCh);
-	while (
-		oldStartIndex <= oldEndIndex &&
-		newStartIndex <= newEndIndex
-	) {
+	while (oldStartIndex <= oldEndIndex && newStartIndex <= newEndIndex) {
 		if (!oldStartVnode) {
 			oldStartVnode = oldCh[++oldStartIndex];
 		} else if (!oldEndVnode) {
@@ -562,10 +529,7 @@ function updateChildren(parent, oldCh, newCh) {
 			newEndVnode = newCh[--newEndIndex];
 		} else if (isSameVnode(oldStartVnode, newEndVnode)) {
 			patch(oldStartVnode, newEndVnode);
-			parent.insertBefore(
-				oldStartVnode.el,
-				oldEndVnode.el.nextSibling
-			);
+			parent.insertBefore(oldStartVnode.el, oldEndVnode.el.nextSibling);
 			oldStartVnode = oldCh[++oldStartIndex];
 			newEndVnode = newCh[--newEndIndex];
 		} else if (isSameVnode(oldEndVnode, newStartVnode)) {
@@ -576,10 +540,7 @@ function updateChildren(parent, oldCh, newCh) {
 		} else {
 			let moveIndex = map[newStartVnode.key];
 			if (!moveIndex) {
-				parent.insertBefore(
-					createElm(newStartVnode),
-					oldStartVnode.el
-				);
+				parent.insertBefore(createElm(newStartVnode), oldStartVnode.el);
 			} else {
 				const moveVnode = oldCh[moveIndex];
 				oldCh[moveIndex] = undefined;
@@ -615,11 +576,9 @@ function mergeHook(parentVal, childVal) {
 function mergeOptions(parent, child) {
 	const options = {};
 	for (const key in parent) mergeFiled(key);
-	for (const key in child)
-		if (!parent.hasOwnProperty(key)) mergeFiled(key);
+	for (const key in child) if (!parent.hasOwnProperty(key)) mergeFiled(key);
 	function mergeFiled(key) {
-		if (strats[key])
-			options[key] = strats[key](parent[key], child[key]);
+		if (strats[key]) options[key] = strats[key](parent[key], child[key]);
 		else options[key] = child[key] ? child[key] : parent[key];
 	}
 	return options;
@@ -758,17 +717,14 @@ function gen(node) {
 	if (node.type == 1) return codegen(node);
 	else {
 		let text = node.text;
-		if (!defaultTagRE.test(text))
-			return `_v(${JSON.stringify(text)})`;
+		if (!defaultTagRE.test(text)) return `_v(${JSON.stringify(text)})`;
 		let lastIndex = (defaultTagRE.lastIndex = 0);
 		const tokens = [];
 		let match, index;
 		while ((match = defaultTagRE.exec(text))) {
 			index = match.index;
 			if (index > lastIndex) {
-				tokens.push(
-					JSON.stringify(text.slice(lastIndex, index))
-				);
+				tokens.push(JSON.stringify(text.slice(lastIndex, index)));
 			}
 			tokens.push(`_s(${match[1].trim()})`);
 			lastIndex = index + match[0].length;

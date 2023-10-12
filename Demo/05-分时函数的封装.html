@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			.btn {
+				width: 100px;
+				height: 40px;
+				background-color: skyblue;
+				border: none;
+				border-radius: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<button class="btn">插入元素</button>
+
+		<script>
+			const btn = document.querySelector(".btn");
+			// const data = Array.from({ length: 1000000 }, (_, k) => k + 1);
+			btn.onclick = () => {
+				const consumer = (item, index) => {
+					const div = document.createElement("div");
+					div.textContent = index + 1;
+					document.body.appendChild(div);
+				};
+				performChunk(10000, consumer);
+			};
+
+			/**
+			 * @callback Consumer
+			 * @param {any} item
+			 * @param {number} index
+			 */
+			/**
+			 * @description     分时函数
+			 * @param           {Array|number} data
+			 * @param           {Consumer} consumer
+			 * @param           {Function} [chunkSplit]
+			 * @return          {void}
+			 */
+			function performChunk(data, consumer, chunkSplit) {
+				if (typeof data === "number") {
+					data = new Array(data);
+				}
+				const n = data.length;
+				if (n === 0) {
+					return;
+				}
+
+				if (!chunkSplit && globalThis.requestIdleCallback) {
+					chunkSplit = callback => {
+						requestIdleCallback(idle => {
+							callback(() => idle.timeRemaining() > 0);
+						});
+					};
+				} else {
+					chunkSplit = callback => {
+						setTimeout(() => {
+							callback(item => item <= 16);
+						});
+					};
+				}
+
+				let i = 0; // 目前应该取出的任务下标
+				// 执行一块任务
+				function _run() {
+					if (i === n) {
+						return;
+					}
+					chunkSplit(hasTime => {
+						const now = Date.now();
+						while (hasTime(Date.now() - now) && i < n) {
+							// 在这一帧还有空闲时间
+							const item = data[i];
+							consumer(item, i);
+							i++;
+						}
+						_run();
+					});
+				}
+
+				_run();
+			}
+		</script>
+	</body>
+</html>
