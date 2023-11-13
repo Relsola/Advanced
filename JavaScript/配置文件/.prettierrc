@@ -1,12 +1,13 @@
 {
 	"printWidth": 120,
-	"tabWidth": 4,
-	"useTabs": true,
+	"tabWidth": 2,
+	"useTabs": false,
 	"semi": true,
 	"singleQuote": true,
 	"trailingComma": "none",
-	"bracketSameLine": true,
+	"bracketSameLine": false,
 	"arrowParens": "avoid",
 	"htmlWhitespaceSensitivity": "ignore",
-	"endOfLine": "crlf"
+	"endOfLine": "crlf",
+        "eslintIntegration": false
 }
