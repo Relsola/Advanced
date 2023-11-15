@@ -1,0 +1,73 @@
+<script>
+	{
+		// 弱映射 WeakMap
+
+		const wm = new WeakMap();
+
+		const key1 = { id: 1 },
+			key2 = { id: 2 },
+			key3 = { id: 3 };
+
+		const vm1 = new WeakMap([
+			[key1, "key1"],
+			[key2, "key2"],
+			[key3, "key3"],
+			[new String("key4"), "key4"]
+		]);
+		console.log(vm1);
+	}
+
+	{
+		// set 添加键值对
+		// get has 查询
+		// delete 删除
+	}
+
+	{
+		// 弱引用 键值没有引用则自动摧毁键值对
+		// 所以不可迭代键
+	}
+
+	{
+		// 私有变量
+		const User = (() => {
+			const wm = new WeakMap();
+
+			class User {
+				constructor(id) {
+					this.idProperty = Symbol("id");
+					this.setId(id);
+				}
+
+				setPrivate(property, value) {
+					const privateMembers = wm.get(this) || {};
+					privateMembers[property] = value;
+					wm.set(this, privateMembers);
+				}
+
+				getPrivate(property) {
+					return wm.get(this)[property];
+				}
+
+				setId(id) {
+					this.setPrivate(this.idProperty, id);
+				}
+
+				getId() {
+					return this.getPrivate(this.idProperty);
+				}
+			}
+
+			return User;
+		})();
+
+		const user = new User(123);
+		console.log(user);
+		console.log(user.getId()); // 123
+		user.setId(456);
+		console.log(user.getId()); // 456
+
+		// 闭包避免访问
+		// console.log(wm.get(user)[user.idProperty]); // Error
+	}
+</script>

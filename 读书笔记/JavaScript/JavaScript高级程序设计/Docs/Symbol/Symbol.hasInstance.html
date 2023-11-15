@@ -1,0 +1,17 @@
+<script>
+	// 用于instanceof
+
+	function Fn() {}
+	const f = new Fn();
+	console.log(f instanceof Fn); // true
+	console.log(Fn[Symbol.hasInstance](f)); // true
+
+	class Gn extends Fn {
+		static [Symbol.hasInstance]() {
+			return false;
+		}
+	}
+	const g = new Gn();
+	console.log(g instanceof Fn); // true
+	console.log(g instanceof Gn); // false
+</script>

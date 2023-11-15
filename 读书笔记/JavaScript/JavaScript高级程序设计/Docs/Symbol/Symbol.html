@@ -1,0 +1,65 @@
+<script>
+	new Boolean();
+	// Boolean { false }
+	new String();
+	// String { '' }
+	new Number();
+	// Number { 0 }
+	Object(Symbol());
+	// Symbol { Symbol(), description: undefined }
+
+	// 使用全局符号注册表
+	Symbol.for("foo") == Symbol.for("foo"); // true
+
+	Symbol.keyFor(Symbol.for("foo")); // 'foo'
+</script>
+
+<script>
+	const s1 = Symbol("s1"),
+		s2 = Symbol("s2"),
+		s3 = Symbol("s3"),
+		s4 = Symbol("s4");
+
+	const o = {
+		[s1]: "s1"
+	};
+	// o[s1] = "s1";
+
+	Object.defineProperty(o, s2, {
+		value: "s2"
+	});
+
+	Object.defineProperties(o, {
+		[s3]: { value: "s3" },
+		[s4]: { value: "s4" }
+	});
+	// {Symbol(s1): 's1', Symbol(s2): 's2', Symbol(s3): 's3', Symbol(s4): 's4'}
+</script>
+
+<script>
+	o = {
+		[s1]: "s1",
+		[s2]: "s2",
+		baz: "baz",
+		qux: "qux"
+	};
+
+	Object.getOwnPropertyNames(o); // ['baz', 'qux']
+
+	Object.getOwnPropertySymbols(o); // [Symbol(s1), Symbol(s2)]
+
+	Object.getOwnPropertyDescriptors(o);
+	// => {baz: {…}, qux: {…}, Symbol(s1): {…}, Symbol(s2): {…}}
+
+	Reflect.ownKeys(o); // ['baz', 'qux', Symbol(s1), Symbol(s2)]
+</script>
+
+<script>
+	o = { [Symbol("bar")]: "bar" };
+	const bar = Object.getOwnPropertySymbols(o).find(symbol =>
+		symbol.toString().match(/bar/)
+	);
+	const x = Object.getOwnPropertySymbols(o)[0];
+	console.log(bar); // Symbol(bar)
+	console.log(bar === x); // true
+</script>

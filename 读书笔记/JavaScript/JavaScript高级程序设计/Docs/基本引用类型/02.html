@@ -1,0 +1,55 @@
+<script>
+	RegExp;
+
+	const re1 = /cat/g;
+	console.log(re1); // /cat/g
+	const re2 = new RegExp(re1);
+	console.log(re2); // /cat/g
+	const re3 = new RegExp(re1, "i");
+	console.log(re3); // /cat/i
+</script>
+
+<script>
+	let text = "cat bat sat fat";
+	const ex = /(?<group>.)at/g;
+	console.log(ex.exec(text));
+	console.log(ex.exec(text));
+	console.log(ex.exec(text));
+
+	if (/^\d{4}-\d{2}-\d{2}$/.test("2000-10-18")) {
+		console.log("密码正确");
+	}
+</script>
+
+<script>
+	let pattern = new RegExp("\\[ba\\]at", "gi");
+	console.log(pattern); // /\[ba\]at/gi
+	console.log(pattern.toString()); // "/\[ba\]at/gi"
+	console.log(pattern.toLocaleString()); // "/\[ba\]at/gi"
+</script>
+
+<script>
+	text = "this has been a short summer";
+	pattern = /(.)hort/g;
+
+	if (pattern.test(text)) {
+		// 最后搜索的字符串
+		console.log(RegExp.input); // this has been a short summer
+		// input 中出现在 lastMatch 左边的字符串
+		console.log(RegExp.leftContext); // this has been a
+		// 右边
+		console.log(RegExp.rightContext); //  summer
+		// 最后匹配的文本
+		console.log(RegExp.lastMatch); // short
+		// 最后匹配的捕获组
+		console.log(RegExp.lastParen); // s
+
+		// 简写
+		RegExp.$_;
+		RegExp["$`"];
+		RegExp["$'"];
+		RegExp["$&"];
+		RegExp["$+"];
+		RegExp.$1; // $1-$9 最多存储9个捕获组
+	}
+</script>

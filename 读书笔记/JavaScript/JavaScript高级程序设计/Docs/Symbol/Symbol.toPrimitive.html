@@ -1,0 +1,28 @@
+<script>
+	// 转换成相应的原始值
+	class Foo {}
+	const foo = new Foo();
+	console.log(3 + foo); // 3[object Object]
+	console.log(3 - foo); // NaN
+	console.log(String(foo)); // [object Object]
+
+	class Bar {
+		constructor() {
+			this[Symbol.toPrimitive] = function (hint) {
+				switch (hint) {
+					case "number":
+						return 3;
+					case "string":
+						return "bar";
+					default:
+						return "[Bar]";
+				}
+			};
+		}
+	}
+
+	const bar = new Bar();
+	console.log(2 + bar); // 2[Bar]
+	console.log(2 - bar); // -1
+	console.log(String(bar)); // bar
+</script>

@@ -1,0 +1,40 @@
+<script>
+	// 创建对象默认字符串的描述
+	const s = new Set();
+
+	console.log(s); // Set(0) {size: 0}
+	console.log(s.toString()); // [object Set]
+	console.log(s[Symbol.toStringTag]); // Set
+
+	class Foo {}
+	const foo = new Foo();
+	console.log(foo); // Foo {}
+	console.log(foo.toString()); // [object Object]
+	console.log(foo[Symbol.toStringTag]); // undefined
+
+	class Bar {
+		constructor() {
+			this[Symbol.toStringTag] = "Bar";
+		}
+	}
+	const bar = new Bar();
+	console.log(bar); // Bar {}
+	console.log(bar.toString()); // [object Bar]
+	console.log(bar[Symbol.toStringTag]); // Bar
+</script>
+
+<script>
+	// 从 with 对象中排除 不推荐使用 with 因此也不推荐使用 unscopables
+	const o = { foo: "bar" };
+	with (o) {
+		console.log(foo); // bar
+	}
+
+	o[Symbol.unscopables] = {
+		foo: true
+	};
+
+	with (o) {
+		console.log(foo); // Foo {}
+	}
+</script>

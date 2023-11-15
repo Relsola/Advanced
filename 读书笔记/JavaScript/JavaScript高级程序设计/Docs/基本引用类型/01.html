@@ -1,0 +1,26 @@
+<script>
+	Date;
+
+	let someDate = new Date(Date.parse("5/23/2020"));
+	console.log(Date.parse("5/23/2020"));
+	console.log(new Date(Date.UTC(2020, 4, 23)));
+	// 等价
+	console.log(new Date("5/23/2020"));
+	console.log(new Date(2020, 4, 23));
+
+	// 现在的时间戳
+	console.log(Date.now());
+</script>
+
+<script>
+	console.log(someDate.toLocaleString());
+	console.log(someDate.toString());
+	console.log(someDate.valueOf());
+
+	// 由于 valueOf 重写，可以直接比较
+	console.log(new Date(2000, 0, 2) > new Date(2000, 0, 1));
+</script>
+
+<script>
+    // 日期格式化
+</script>

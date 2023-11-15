@@ -1,0 +1,47 @@
+<script>
+    // 模板字面量标签函数
+    let a = 6
+    let b = 9
+
+    function fn(a, b, c, d) {
+        console.log(a);
+        console.log(b);
+        console.log(c);
+        console.log(d);
+
+        return "Fn"
+    }
+
+    let str = `${a}+${b}=${a + b}`
+    let tag = fn`${a}+${b}=${a + b}`
+
+    console.log(str);
+    console.log(tag);
+
+    function ZipTag(strings, ...expressions) {
+        return strings[0] +
+            expressions.map((e, i) => `${e}${strings[i + 1]}`)
+                .join("")
+    }
+
+    console.log(ZipTag`${a}+${b}+${a + b}=${a * b}-${24}`);
+</script>
+
+<script>
+    // \u00A9
+    console.log("\u00A9");
+    console.log(`\u00A9`);
+    console.log(String.raw`\u00A9`);
+
+    function printRaw(strings) {
+        console.log("/.....................");
+        for (const string of strings) {
+            console.log(string);
+        }
+        console.log("/.....................");
+        for (const rawString of strings.raw) {
+            console.log(rawString);
+        }
+    }
+    printRaw`\u00A9${'and'}\n`
+</script>

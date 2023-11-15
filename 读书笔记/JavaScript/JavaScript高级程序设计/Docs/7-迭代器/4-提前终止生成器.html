@@ -1,0 +1,73 @@
+<script>
+	{
+		function* generatorFn() {}
+		const g = generatorFn();
+		console.log(g); // generatorFn {<suspended>}
+		console.log(g.next); // ƒ next() { [native code] }
+		console.log(g.return); // ƒ return() { [native code] }
+		console.log(g.throw); // ƒ throw() { [native code] }
+	}
+
+	{
+		// return
+		function* generatorFn() {
+			yield 1;
+			yield 2;
+			yield 3;
+		}
+
+		const g1 = generatorFn();
+		console.log(g1); // generatorFn {<suspended>}
+		console.log(g1.return(4)); // {value: 4, done: true}
+		console.log(g1); // generatorFn {<closed>}
+
+		const g2 = generatorFn();
+		console.log(g2.next()); // {value: 1, done: false}
+		console.log(g2.return(4)); // {value: 4, done: true}
+		console.log(g2.next()); // {value: undefined, done: true}
+
+		const g3 = generatorFn();
+		for (const x of g3) {
+			if (x > 1) {
+				g3.return(4);
+			}
+			console.log(x);
+		}
+		// 1
+		// 2
+	}
+
+	{
+		// throw
+		function* generatorFn() {
+			yield 1;
+			yield 2;
+			yield 3;
+		}
+
+		const g = generatorFn();
+		console.log(g); // generatorFn {<suspended>}
+		try {
+			g.throw("WTF");
+		} catch (error) {
+			console.log(error); // WTF
+		}
+		console.log(g); // generatorFn {<closed>}
+	}
+
+	{
+		// 内部捕获
+		function* generatorFn() {
+			for (const x of [1, 2, 3]) {
+				try {
+					yield x;
+				} catch (error) {}
+			}
+		}
+
+		const g = generatorFn();
+		console.log(g.next()); // {value: 1, done: false}
+		g.throw("WTF");
+		console.log(g.next()); // {value: 3, done: false}
+	}
+</script>

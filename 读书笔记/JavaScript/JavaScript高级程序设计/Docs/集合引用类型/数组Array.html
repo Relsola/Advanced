@@ -1,0 +1,171 @@
+<script>
+	// Array.from 转为真数组
+
+	// 第一个参数  可迭代结构 或有一个length属性和可索引元素的结构
+	Array.from("Matt"); // ['M', 'a', 't', 't']
+
+	const m = new Map().set(1, 2).set(3, 4);
+	const s = new Set().add(1).add(2).add(3).add(4);
+	Array.from(m); // [[1, 2], [3, 4]]
+	Array.from(s); // [1, 2, 3, 4]
+
+	// 浅复制
+	let a = [1, 2, 3];
+	Array.from(a) === a; // false
+
+	const iter = {
+		*[Symbol.iterator]() {
+			yield 1;
+			yield 2;
+			yield 3;
+			yield 4;
+		}
+	};
+	Array.from(iter); // [1, 2, 3, 4]
+
+	function getArgsArray() {
+		return Array.from(arguments);
+	}
+	getArgsArray(1, 2, 3, 4); //[1, 2, 3, 4]
+
+	Array.from({
+		length: 4,
+		0: 1,
+		1: 2,
+		2: 3,
+		3: 4
+	});
+	// [1, 2, 3, 4]
+
+	// 第二个参数可选 映射函数  第三个参数可选 映射函数中的this值（箭头函数无效）
+	Array.from(
+		[1, 2, 3],
+		function (item, index) {
+			return (item + index) * this.exponent;
+		},
+		{ exponent: 2 }
+	);
+	// [2, 6, 10]
+
+	// Array.of 将一组参数转化为数组  代替Array.prototype.slice.call(arguments)
+	Array.of(1, 2, 3, 4); // [1, 2, 3, 4]
+	Array.of(undefined, null); // [undefined, null]
+</script>
+
+<script>
+	// 数组空位 尽量避免使用 确实需要使用undefined代替
+	let options = [1, , , , 5]; //  [1, 空属性 × 3, 5] length:5
+	Array.from(options); // [1, undefined, undefined, undefined, 5]
+	Array.of(...options); // [1, undefined, undefined, undefined, 5]
+
+	// map 会跳过空位置
+	options.map(() => 6); // [6, 空属性 × 3, 6]
+	// join 会视空位置为空字符串
+	options.join("-"); // '1----5'
+</script>
+
+<script>
+	// 检测数组
+	options instanceof Array;
+	Array.isArray(options);
+</script>
+
+<script>
+	// 迭代器方法
+	// keys  values entries  返回迭代器
+	Array.from([1, 2, 3].keys()); // [0, 1, 2]
+	Array.from([1, 2, 3].values()); // [1, 2, 3]
+	Array.from([1, 2, 3].entries()); // [[0, 1], [1, 2], [2, 3]]
+
+	for (const [index, item] of [1, 2, 3].entries()) {
+		// ...
+	}
+</script>
+
+<script>
+	// 复制和填充
+	// file 填充
+	let zeroes = [0, 0, 0, 0, 0];
+	zeroes.fill(5); // [5, 5, 5, 5, 5]
+
+	zeroes.fill(0); //重置
+	zeroes.fill(6, 3); // [0, 0, 0, 6, 6]
+
+	zeroes.fill(0);
+	zeroes.fill(7, 1, 3); // [0, 7, 7, 0, 0]
+
+	zeroes.fill(0);
+	zeroes.fill(8, -4, -1); // [0, 8, 8, 8, 0]
+
+	// copyWithin
+</script>
+
+<script>
+	// 转换方法
+	let colors = ["red", "blue", "green"];
+	colors.valueOf(); // ['red', 'blue', 'green']
+	colors.toString(); // 'red,blue,green'
+	colors.toLocaleString(); // 'red,blue,green'
+</script>
+
+<script>
+	// 栈方法 push pop
+
+	// 队列方法 push shift  /  unshift pop
+</script>
+
+<script>
+	// 排序方法 sort（默认升序）默认调用 String 方法比较顺序 返回调用该方法的引用
+	let values = [0, 1, 5, 10, 15];
+	// 因为字符串 10 在 字符串 5 的前头
+	values.sort(); //  [0, 1, 10, 15, 5]
+
+	// 比较函数 如果第一个参数应该排在第二个参数前面，就返回负值(0,正值) ...
+	function compare(value1, value2) {
+		if (value1 < value2) {
+			return -1;
+		} else if (value1 === value2) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+	values.sort(compare); // [0, 1, 5, 10, 15]
+	// 简写
+	values.sort((a, b) => a - b);
+
+	// reverse 翻转
+</script>
+
+<script>
+	// 操作方法
+
+	// concat 拼接  返回新数组
+
+	// slice  剪切  开始索引到结束索引
+
+	// splice  删除第一个元素的索引 删除元素的个数 要插入的元素  返回被删除元素的数组（或空数组）
+</script>
+
+<script>
+	// 搜索和位置方法
+
+	// indexOf lastIndexOf includes  要查找的元素 可选的起始搜索位置
+
+	// find findIndex  （元素 索引 数组本身） this
+	[].find((item, index, array) => true, window);
+</script>
+
+<script>
+	// 迭代方法
+	// every 全为true返回true （空数组返回true）
+	// filter
+	// forEach
+	// map  返回结果组成的新数组
+	// some 有一个true返回true
+
+	// 归并方法
+	// reduce
+	// reduceRight 从最后一项遍历到第一项
+	[].reduce((prev, cur, index, array) => prev + cur, 0);
+</script>

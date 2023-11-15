@@ -1,0 +1,122 @@
+<script>
+	{
+		// 生成器函数声明
+		function* generatorFn() {}
+
+		// 其他声明方式
+		const generatorGn = function* () {};
+
+		const foo = {
+			*generatorFn() {}
+		};
+
+		class Foo {
+			*generatorFn() {}
+		}
+
+		class Bar {
+			static *generatorFn() {}
+		}
+	}
+
+	{
+		function* generatorFn() {}
+		console.log(generatorFn); // ƒ* generatorFn() {}
+		const g = generatorFn();
+		console.log(g); // generatorFn {<suspended>}
+		console.log(g.next); // ƒ next() { [native code] }
+		console.log(g.next()); // {value: undefined, done: true}
+
+		console.log(g === g[Symbol.iterator]()); // true
+	}
+
+	{
+		function* generatorFn() {
+			console.log("foobar");
+			// return 使 done 变为 true
+			return "foo";
+		}
+		const g = generatorFn();
+		console.log(g.next()); // foobar {value: 'foo', done: true}
+		console.log(g.next()); // {value: undefined, done: true}
+	}
+
+	{
+		// 通过 yield 中断执行
+		function* generatorFn() {
+			yield "mtf";
+			yield "hjd";
+			return "dyx";
+		}
+		const iter = generatorFn();
+		console.log(iter.next()); // {value: 'mtf', done: false}
+		console.log(iter.next()); // {value: 'hjd', done: false}
+		console.log(iter.next()); // {value: 'dyx', done: true}
+
+		for (const name of generatorFn()) {
+			console.log(name);
+		}
+		// mtf
+		// hjd
+	}
+
+	{
+		function* nTimes(n) {
+			while (n-- !== 0) {
+				yield n;
+			}
+		}
+		for (const num of nTimes(3)) {
+			console.log(num);
+		}
+		// 2
+		// 1
+		// 0
+	}
+
+	{
+		// 使用 yield 实现输入和输出
+		function* generatorFn(initial) {
+			console.log(initial);
+			console.log(yield);
+			console.log(yield);
+		}
+
+		const iter = generatorFn("foo");
+		// 第一次传入的值不会被使用
+		iter.next("bar"); // "foo"
+		iter.next("baz"); // "baz"
+		iter.next("qux"); // "qux"
+
+		// 同时输入和输出
+		function* generatorGn() {
+			return yield "foo";
+		}
+		const generatorGnObject = generatorGn();
+		console.log(generatorGnObject.next()); // {value: 'foo', done: false}
+		console.log(generatorGnObject.next("bar")); // {value: 'bar', done: true}
+	}
+
+	{
+		// 实现范围
+		function* range(start, end) {
+			while (end > start) {
+				yield start++;
+			}
+		}
+		for (const x of range(4, 7)) {
+			console.log(x);
+		}
+		// 4
+		// 5
+		// 6
+
+		// 填充数组
+		function* zeroes(n) {
+			while (n--) {
+				yield 0;
+			}
+		}
+		console.log(Array.from(zeroes(8))); // [0, 0, 0, 0, 0, 0, 0, 0]
+	}
+</script>

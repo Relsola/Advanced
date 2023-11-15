@@ -1,0 +1,139 @@
+<!-- ES6 常用内置符号 -->
+<script>
+	// Symbol.asyncIterator 异步迭代器
+	const asyncIterable = {
+		[Symbol.asyncIterator]() {
+			return {
+				i: 0,
+				[0]: "Vue",
+				[1]: "React",
+				[2]: "Angular",
+				next() {
+					const num = this.i;
+					if (this.i++ < 3) {
+						return Promise.resolve({
+							value: {
+								num,
+								name: this[num]
+							},
+							done: false
+						});
+					}
+
+					return Promise.resolve({ done: true });
+				}
+			};
+		}
+	};
+
+	(async function () {
+		for await (num of asyncIterable) {
+			console.log(num);
+		}
+	})();
+	// {num: 0, name: 'Vue'}
+	// {num: 1, name: 'React'}
+	// {num: 2, name: 'Angular'}
+</script>
+
+<script>
+	async function* asyncGenerator() {
+		let i = 0;
+		while (i < 3) {
+			yield i++;
+		}
+	}
+
+	(async function () {
+		for await (num of asyncGenerator()) {
+			console.log(num);
+		}
+	})();
+	// 0
+	// 1
+	// 2
+</script>
+
+<script>
+	async function* streamAsyncIterator(stream) {
+		const reader = stream.getReader();
+		try {
+			while (true) {
+				const { done, value } = await reader.read();
+				if (done) {
+					return;
+				}
+				yield value;
+			}
+		} finally {
+			reader.releaseLock();
+		}
+	}
+	// 从 url 获取数据并使用异步 generator 来计算响应值的大小
+	async function getResponseSize(url) {
+		const response = await fetch(url);
+		// Will hold the size of the response, in bytes.
+		let responseSize = 0;
+		// 使用 for-await-of 循环。异步 generator 会遍历响应值的每一部分
+		for await (const chunk of streamAsyncIterator(response.body)) {
+			// Incrementing the total response length.
+			responseSize += chunk.length;
+		}
+
+		console.log(`Response Size: ${responseSize} bytes`);
+		// expected output: "Response Size: 1071472"
+		return responseSize;
+	}
+	getResponseSize("https://jsonplaceholder.typicode.com/photos");
+</script>
+
+<script>
+	class Foo {
+		async *[Symbol.asyncIterator]() {}
+	}
+
+	let f = new Foo();
+	console.log(f); // Foo {}
+	console.log(f[Symbol.asyncIterator]()); // AsyncGenerator {<suspended>}
+</script>
+
+<script>
+	class Emitter {
+		constructor(max) {
+			this.max = max;
+			this.asyncIdx = 0;
+		}
+
+		// async *[Symbol.asyncIterator]() {
+		// 	while (this.asyncIdx < this.max) {
+		// 		yield new Promise(resolve => resolve(this.asyncIdx++));
+		// 	}
+		// }
+
+		[Symbol.asyncIterator]() {
+			const self = this;
+			return {
+				next() {
+					if (self.asyncIdx++ < self.max) {
+						return Promise.resolve({
+							value: { i: self.asyncIdx },
+							done: false
+						});
+					}
+
+					return Promise.resolve({ done: true });
+				}
+			};
+		}
+	}
+
+	async function asyncCount() {
+		const emitter = new Emitter(5);
+
+		for await (const value of emitter) {
+			console.log(value);
+		}
+	}
+
+	asyncCount();
+</script>

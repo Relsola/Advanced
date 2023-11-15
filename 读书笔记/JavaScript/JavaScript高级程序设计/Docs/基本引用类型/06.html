@@ -1,0 +1,19 @@
+<script>
+	console.log(window.__proto__.__proto__.__proto__.__proto__);
+	let url = "http://www.wrox.com/illegal value.js#start";
+	console.log(encodeURI(url)); // 编码
+	console.log(encodeURIComponent(url));
+	console.log(decodeURI(encodeURI(url))); // 解码
+	console.log(decodeURIComponent(encodeURIComponent(url)));
+
+	eval('console.log("eval")');
+
+	// 获取Global
+	console.log(window);
+	console.log(globalThis);
+	console.log(
+		(function () {
+			return this;
+		})()
+	);
+</script>

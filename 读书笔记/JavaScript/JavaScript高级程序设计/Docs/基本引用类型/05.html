@@ -1,0 +1,124 @@
+<script>
+	// concat + 拼接
+	console.log("Hello".concat(" World", "!"));
+
+	// slice substr substring 截取
+	console.log("Hello World".slice(3, -4));
+	console.log("Hello World".substr(3, -4));
+	console.log("Hello World".substring(3, -4));
+
+	// indexOf lastIndexOf 搜索
+	console.log("Hello World".indexOf("o")); // 4
+	console.log("Hello World".indexOf("o", 6)); // 7
+	console.log("Hello World".lastIndexOf("o")); // 7
+	console.log("Hello World".lastIndexOf("o", 6)); // 4
+
+	// 获取所有目标子串
+	let stringValue = "Lorem ipsum dolor sit et, consenter edit";
+	let positions = new Array();
+	let pos = stringValue.indexOf("e");
+	while (pos !== -1) {
+		positions.push(pos);
+		pos = stringValue.indexOf("e", pos + 1);
+	}
+	console.log(positions);
+
+	// 字符串包含
+	let message = "foobarbaz";
+	console.log(message.startsWith("foo")); // true
+	console.log(message.startsWith("bar")); // false
+	console.log(message.startsWith("bar", 3)); // true
+
+	console.log(message.endsWith("baz")); // true
+	console.log(message.endsWith("bar")); // false
+	console.log(message.endsWith("bar", 6)); // true
+
+	console.log(message.includes("bar")); // true
+	console.log(message.includes("bar", 4)); // false
+	console.log(message.includes("qux")); // false
+
+	// trim trimLeft trimRight 清理空格
+
+	// repeat 复制
+
+	// padStart padEnd
+	stringValue = "foo";
+	console.log(stringValue.padStart(6));
+	console.log(stringValue.padStart(2));
+	console.log(stringValue.padStart(8, "bar"));
+
+	console.log(stringValue.padEnd(6));
+	console.log(stringValue.padEnd(2));
+	console.log(stringValue.padEnd(8, "bar"));
+
+	// 字符串迭代与解构
+	message = "abc";
+	let stringIterator = message[Symbol.iterator]();
+	console.log(stringIterator.next());
+	console.log(stringIterator.next());
+	console.log(stringIterator.next());
+	console.log(stringIterator.next());
+
+	for (const c of "abcde") {
+		console.log(c);
+	}
+
+	// 字符串大小写转换
+	// toLowerCase toLocaleLowerCase toUpperCase toLocaleUpperCase
+
+	// match search 字符串匹配
+
+	// replace 替换
+	console.log("cat bat sat fat".replace("at", "ond")); // 只匹配第一个
+	console.log("cat bat sat fat".replace(/at/g, "ond")); // 全局匹配
+	console.log("cat bat sat fat".replace(/(\wat)/g, "word($1)")); // 捕获
+
+	console.log(
+		'<p class="greeting">Hello World!</p>'.replace(
+			/[<>"&]/g,
+			function (match, pos, originalText) {
+				switch (match) {
+					case "<":
+						return "&lt";
+					case ">":
+						return "&gt";
+					case "&":
+						return "&amp";
+					case '"':
+						return "&quot";
+				}
+			}
+		)
+	);
+
+	// split
+	let colorText = "red,blue,green,yellow";
+	console.log(colorText.split(","));
+	console.log(colorText.split(",", 2));
+	console.log(colorText.split(/[^,]+/));
+
+	stringValue = "yellow";
+	console.log(stringValue.localeCompare("brick")); // 1
+	console.log(stringValue.localeCompare("yellow")); // 0
+	console.log(stringValue.localeCompare("zoo")); // -1
+	// 通常用正负值确保正确判断
+	function determineOrder(value) {
+		const result = stringValue.localeCompare(value);
+		if (result < 0) {
+			console.log(
+				`The string "yellow" comes before the string "${value}"`
+			);
+		} else if (result > 0) {
+			console.log(
+				`The string "yellow" comes after the string "${value}"`
+			);
+		} else {
+			console.log(
+				`The string "yellow" is equal to the string "${value}"`
+			);
+		}
+	}
+	determineOrder("brick");
+	determineOrder("yellow");
+	determineOrder("zoo");
+</script>
