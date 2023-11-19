@@ -1,0 +1,72 @@
+<script>
+    function Person(name, age, job) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        this.say = function () {
+            console.log(this.name);
+        };
+    }
+
+    /* 
+    1. 在内存中创建一个新对象
+    2. 新对象内部的 [[Prototype]] 被赋值为构造函数的 prototype
+    3. 构造函数中的 this 被赋值为这个对象
+    4. 执行函数内部的代码
+    5. 如果构造函数返回非空对象，则返回该对象，否则返回刚创建的对象
+    */
+
+    const person = new Person('Relsola', 18, 'Software Engineer');
+    console.log(person); // Person {name: 'Relsola', age: 18, job: 'Software Engineer', say: ƒ}
+
+    console.log(person.__proto__.constructor === Person); // true
+    console.log(person.__proto__ === Person.prototype); // true
+
+    // 不一定要写成函数声明形式
+    // 如果不需要传参 只需要 new 操作符就行
+    let P = function () {
+        this.p = (Math.random() * 10) >> 0;
+    };
+    console.log(new P); // P {p: 2}
+
+    // 构造函数也是函数
+    Person('Relsola', 18, 'Software Engineer');
+    window.say(); // Relsola
+
+    let o = new Object();
+    Person.call(o, 'Relsola', 18, 'Software Engineer');
+    console.log(o); // {name: 'Relsola', age: 18, job: 'Software Engineer', say: ƒ}
+
+    // 问题 -- 其定义的方法在每个实例上都会创建一边
+    // 逻辑等价 => this.say = new Function('console.log(this.name)');
+
+    {
+        // 原型模式
+        console.log({}.__proto__ === Object.prototype);
+        console.log(Object.prototype.__proto__); // null
+
+        // isPrototypeOf 可以确定两个对象间的原型关系
+        // instanceof 检查实例原型链中是否包含指定构造函数的原型
+        console.log(Person.prototype.isPrototypeOf(person)); // true
+        console.log(Object.prototype.isPrototypeOf(person)); // true
+        console.log(Array.prototype.isPrototypeOf(person)); // false
+
+        // Object.getPrototypeOf 返回内部参数的 [[Prototype]]
+        console.log(Object.getPrototypeOf(person) === Person.prototype);
+    }
+
+    {
+        // Object.setPrototypeOf() 可以重写一个对象的原型关系 但有严重的性能问题
+        // 推荐 Object.create() 创建一个新对象，为其指定原型
+        const person = Object.create({ name: 'Relsola', age: 18 });
+        console.log(person.name); // Relsola
+
+        person.name = 'Nick'; // 屏蔽原型上的 name 属性
+        console.log(person.name); // Nick
+        person.name = null; // 设置成 null 也无法恢复联系
+        console.log(person.name); // null
+
+        delete person.name; // 删除可以恢复联系
+        console.log(person.name); // Relsola
+    }
+</script>

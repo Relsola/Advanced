@@ -1,0 +1,33 @@
+<script>
+    // Object.values() Object.entries()
+    const o = {
+        [1]: 1,
+        bar: 'bar',
+        qux: {}
+    };
+    console.log(Object.values(o)); //  [1, 'bar', {}]
+    // 键值会被转化为字符串
+    console.log(Object.entries(o)); // [['1', 1], ['bar', 'bar'], ['qux', {}]]
+    // 执行对象的浅复制
+    console.log(Object.values(o)[2] === o.qux); // true
+    console.log(Object.entries(o)[2][1] === o.qux); // true
+
+    // Symbol 符号属性会被忽略
+
+
+    // 修改原型
+    function Person() {}
+    Person.prototype = {
+        name: 'Relsola',
+        age: 18,
+        job: 'Software engineer'
+    };
+    Object.defineProperty(Person.prototype, 'constructor', {
+        enumerable: false,
+        value: Person
+    });
+    const person = new Person();
+    console.log(person);
+    console.log(person.__proto__ === Person.prototype); // true
+    console.log(Person === Person.prototype.constructor); // true
+</script>

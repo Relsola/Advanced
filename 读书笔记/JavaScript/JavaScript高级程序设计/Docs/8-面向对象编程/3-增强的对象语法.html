@@ -1,0 +1,133 @@
+<script>
+    // Object.is()  一般与 === 相同，但边界判断有所不同
+
+    console.log(+0 === -0); // true
+    console.log(+0 === 0); // true
+    console.log(-0 === 0); // true
+
+    console.log(NaN === NaN); // false
+    console.log(isNaN(NaN)); // true
+
+    // 正确判断
+    console.log(Object.is(+0, -0)); // false
+    console.log(Object.is(+0, 0)); // true
+    console.log(Object.is(-0, 0)); // false
+    console.log(Object.is(NaN, NaN)); // true
+
+    // 递归检查超过两个值
+    function recursivelyCheckEqual(x, ...rest) {
+        return Object.is(x, rest[0]) && (rest.length < 2 || recursivelyCheckEqual(...rest));
+    }
+
+    // 增强的对象语法
+    {
+        // 属性值简写
+        const name = 'Relsola';
+        console.log({ name }); // {name: 'Relsola'}
+
+        function makePerson(name) {
+            return { name };
+        }
+        console.log(makePerson('Relsola').name); // Relsola
+    }
+
+    {
+        // 可计算属性  --使用中括号在对象字面量中完成动态属性赋值
+        const nameKey = 'name';
+        const ageKey = 'age';
+        const jobKey = 'job';
+        let uniqueToken = 0;
+
+        console.log({
+            [nameKey]: 'Relsola',
+            [ageKey]: 18,
+            [jobKey]: 'Software engineer'
+        });
+        // {name: 'Relsola', age: 18, job: 'Software engineer'}
+
+        function getUniqueKey(key) {
+            return `${key}_${uniqueToken++}`;
+        }
+        console.log({
+            [getUniqueKey(nameKey)]: 'Relsola',
+            [getUniqueKey(ageKey)]: 18,
+            [getUniqueKey(jobKey)]: 'Software engineer'
+        });
+        // {name_0: 'Relsola', age_1: 18, job_2: 'Software engineer'}
+    }
+
+    {
+        // 简写方法名 可与计算属性兼容
+        {
+            let person = {
+                sayName: function (name) {
+                    console.log(`My name is ${name}`);
+                }
+            };
+            // 等价于
+            const methodKey = 'sayName';
+            person = {
+                [methodKey](name) {
+                    console.log(`My name is ${name}`);
+                },
+                set name(val) {},
+                get name() {}
+            };
+            person.sayName('Relsola'); // My name is Relsola
+        }
+    }
+
+    {
+        // 对象解构
+        let person = { name: 'Relsola', age: 18 };
+        const { name: personName, age: personAge } = person;
+        console.log(personName, personAge); // Relsola 18
+
+        // 变量直接使用属性的名称 简写
+        const { name, age } = person;
+        console.log(name, age); // Relsola 18
+
+        // 不存在则是 undefined
+        const { job } = person;
+        console.log(job); // undefined
+
+        // 给默认值
+        const { girlfriend = 'wangjing' } = person;
+        console.log(girlfriend); // wangjing
+
+        // 解构在内部使用函数 toObject() -- 不能在运行时环境中直接访问
+        // 解构时原始值会被包装成对象 这意味着 null 和 undefined 不能被解构
+
+        const { length } = 'foobar';
+        console.log(length); // 6
+        const { constructor: c } = 6;
+        console.log(c === Number); // true
+
+        // const { _ } = null; TypeError
+        // const { _ } = undefined; TypeError
+
+        // 嵌套解构 和 部分解构
+        person = { name: 'Relsola', job: { title: 'Software engineer' } };
+        const {job: { title } } = person;
+        console.log(title); // Software engineer
+
+        {
+            const person = { name: 'Relsola', age: 18 };
+            let personName, title, personAge;
+            try {
+                ({ name: personName,job: { title },age: personAge } = person);
+            } catch (error) {}
+            console.log(personName, title, personAge); // Relsola undefined undefined
+        }
+
+        // 参数上下文匹配  -- 对参数的解构赋值不会影响 arguments 对象
+        person = { name: 'Relsola', age: 18 };
+        function printPerson({ name, age }) {
+            console.log(arguments);
+            console.log(name, age);
+        }
+        printPerson(person);
+        // [{ name: 'Relsola', age: 18 }]
+        // Relsola 18
+    }
+</script>

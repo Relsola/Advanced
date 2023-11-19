@@ -1,0 +1,45 @@
+<script>
+    {
+        function Person(name, age, job) {
+            this.name = name;
+            this.age = age;
+            this.job = job;
+        }
+        Person.prototype.say = function () {
+            console.log(this.name);
+        };
+
+        const person = new Person('Relsola', 18, 'Software Engineer');
+
+        // hasOwnProperty 继承自 Object 用于确定属性在实例上还是原型对象上
+        console.log(person.hasOwnProperty('name')); // true
+        console.log(person.hasOwnProperty('say')); // false
+
+        // 获取属性描述
+        console.log(Object.getOwnPropertyDescriptor(person, 'name'));
+        console.log(Object.getOwnPropertyDescriptors(person));
+
+        // 获取所有实例属性 无论是否可枚举
+        console.log(Object.getOwnPropertyNames(person)); // ['name', 'age', 'job']
+
+        // in 操作符 只要对象属性能访问 就返回true
+        console.log('name' in person); // true
+        console.log('say' in person); // true
+        console.log('say' in person && person.hasOwnProperty('say')); // false
+
+        // for-in 循环中会访问所有 可枚举[[Enumerable]] 的属性，包括原型上的
+        for (const key in person) {
+            console.log(key);
+            // name
+            // age
+            // job
+            // say
+        }
+
+        //  Object.keys 可以返回对象上所有可枚举的属性 可以适当时候代替 for-in
+        console.log(Object.keys(person)); //  ['name', 'age', 'job']
+
+        // for-in 和 Object.keys 枚举顺序不确定
+        // getOwnPropertyNames 和 getOwnPropertySymbols 按升序排列
+    }
+</script>
