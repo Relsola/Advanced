@@ -1,0 +1,266 @@
+{
+  "workbench.settings.applyToAllProfiles": [
+    "workbench.colorTheme",
+    "workbench.iconTheme",
+    "editor.fontFamily",
+    "window.zoomLevel",
+    "editor.fontSize",
+    "editor.formatOnSave",
+    "editor.formatOnPaste",
+    "window.dialogStyle",
+    "editor.mouseWheelZoom",
+    "files.autoSave",
+    "files.autoSaveDelay",
+    "editor.fontLigatures",
+    "cSpell.userWords",
+    "editor.smoothScrolling",
+    "workbench.list.smoothScrolling",
+    "terminal.integrated.smoothScrolling",
+    "editor.cursorBlinking",
+    "editor.formatOnType",
+    "editor.suggest.snippetsPreventQuickSuggestions",
+    "editor.cursorSmoothCaretAnimation",
+    "terminal.integrated.defaultProfile.windows",
+    "files.autoGuessEncoding",
+    "explorer.confirmDelete",
+    "explorer.confirmDragAndDrop",
+    "debug.showBreakpointsInOverviewRuler",
+    "window.menuBarVisibility"
+  ],
+  // 全局设置
+  "workbench.colorTheme": "One Dark Pro",
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.fontFamily": "JetBrainsMono",
+  "window.zoomLevel": -1,
+  "editor.fontSize": 16,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "window.dialogStyle": "custom",
+  "editor.mouseWheelZoom": true,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "editor.fontLigatures": false,
+  "editor.smoothScrolling": true,
+  "workbench.list.smoothScrolling": true,
+  "terminal.integrated.smoothScrolling": true,
+  "editor.cursorBlinking": "smooth",
+  "editor.formatOnType": true,
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "editor.cursorSmoothCaretAnimation": "explicit",
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "files.autoGuessEncoding": true,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "debug.showBreakpointsInOverviewRuler": true,
+  "window.menuBarVisibility": "visible",
+
+  // 全局单词错误忽视
+  "cSpell.userWords": ["Relsola", "Parens", "esbenp"],
+
+  // 将在视区宽度处换行
+  "editor.wordWrap": "on",
+  // 是否应以紧凑形式呈现文件夹
+  "explorer.compactFolders": false,
+
+  "security.workspace.trust.untrustedFiles": "open",
+  "editor.unicodeHighlight.allowedLocales": {
+    "zh-hans": true
+  },
+  "liveServer.settings.donotShowInfoMsg": true,
+
+  "editor.suggestSelection": "first",
+  "liveServer.settings.donotVerifyTags": true,
+  "workbench.editorAssociations": {
+    "*.pdf": "default"
+  },
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+
+  "editor.acceptSuggestionOnEnter": "smart",
+  "code-runner.runInTerminal": true,
+  "code-runner.saveAllFilesBeforeRun": true,
+  "code-runner.saveFileBeforeRun": true,
+  "projectManager.sortList": "Name",
+
+  "editor.tabCompletion": "on", //启用Tab补全
+  "editor.detectIndentation": false, //不基于文件内容选择缩进用制表符还是空格 因为有时候VSCode的判断是错误的
+
+  "editor.insertSpaces": true, //敲下Tab键时插入4个空格而不是制表符
+  "editor.copyWithSyntaxHighlighting": false, //复制代码时复制纯文本而不是连语法高亮都复制了
+  "editor.stickyTabStops": true, //在缩进上移动光标时四个空格一组来移动，就仿佛它们是制表符(\t)一样
+  "editor.wordBasedSuggestions": false, //关闭基于文件中单词来联想的功能（语言自带的联想就够了，开了这个会导致用vscode写MarkDown时的中文引号异常联想）
+  "editor.renderControlCharacters": true, // 编辑器中显示不可见的控制字符
+  /*terminal*/
+
+  "terminal.integrated.cursorBlinking": false, // 终端光标闪烁
+  "terminal.integrated.rightClickBehavior": "default", //在终端中右键时显示菜单而不是粘贴（个人喜好）
+  /*files*/
+  "files.exclude": {
+    //隐藏一些碍眼的文件夹
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/tmp": true,
+    "**/node_modules": true,
+    "**/bower_components": true
+  },
+  "files.watcherExclude": {
+    //不索引一些不必要索引的大文件夹以减少内存和CPU消耗
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/tmp/**": true,
+    "**/bower_components/**": true,
+    "**/dist/**": true
+  },
+  /*workbench*/
+  "workbench.editor.enablePreview": false, //打开文件时不是“预览”模式，即在编辑一个文件时打开编辑另一个文件不会覆盖当前编辑的文件而是新建一个标签页
+  "workbench.editor.wrapTabs": true, // 编辑器标签页在空间不足时以多行显示
+  /*explorer*/
+
+  /*search*/
+  "search.followSymlinks": false, //据说可以减少vscode的CPU和内存占用
+  /*debug*/
+  "debug.internalConsoleOptions": "openOnSessionStart", //每次调试都打开调试控制台，方便调试
+
+  "debug.toolBarLocation": "docked", //固定调试时工具条的位置，防止遮挡代码内容（个人喜好）
+  "debug.saveBeforeStart": "nonUntitledEditorsInActiveGroup", //在启动调试会话前保存除了无标题文档以外的文档（毕竟你创建了无标题文档就说明你根本没有想保存它的意思（至少我是这样的。））
+  "debug.onTaskErrors": "showErrors", //预启动任务出错后显示错误，并不启动调试
+
+  "Codegeex.Privacy": true,
+  "Codegeex.Comment.LanguagePreference": "zh-CN",
+  "bitoAI.codeCompletion.setAutoCompletionTriggerLogic": 250,
+  // 头部注释
+  "fileheader.customMade": {
+    "Description": "",
+    "Version": "V1.0.0",
+    "Author": "git config user.name && git config user.email",
+    "Date": "Do not edit",
+    "LastEditors": "git config user.name && git config user.email",
+    "LastEditTime": "Do not edit",
+    "FilePath": "only file name",
+    "custom_string_obkoro1_date": "Do not edit", // 版权时间
+    "custom_string_obkoro1_copyright": "Copyright ${now_year} Marvin, All Rights Reserved. "
+  },
+  // 函数注释
+  "fileheader.cursorMode": {
+    "description": "",
+    "param": "",
+    "return": ""
+  },
+  // 插件配置选项
+  "fileheader.configObj": {
+    "createFileTime": false,
+    "autoAdd": false, // 自动添加头部注释是否开启，默认为true
+    "autoAddLine": 100,
+    "autoAlready": true,
+    "annotationStr": {
+      "head": "/*",
+      "middle": " * @",
+      "end": " */",
+      "use": false
+    },
+    "headInsertLine": {
+      "php": 2,
+      "sh": 2
+    },
+    "beforeAnnotation": {
+      "文件后缀": "该文件后缀的头部注释之前添加某些内容"
+    },
+    "afterAnnotation": {
+      "文件后缀": "该文件后缀的头部注释之后添加某些内容"
+    },
+    "specialOptions": {
+      "特殊字段": "自定义比如LastEditTime/LastEditors"
+    },
+    "switch": {
+      "newlineAddAnnotation": true
+    },
+    "supportAutoLanguage": [],
+    "prohibitAutoAdd": ["json", "md"], // 禁止自动添加头部注释的文件类型
+    "folderBlacklist": ["node_modules", "文件夹禁止自动添加头部注释"],
+    "prohibitItemAutoAdd": ["项目的全称, 整个项目禁止自动添加头部注释, 可以使用快捷键添加"],
+    "moveCursor": true,
+    "dateFormat": "YYYY-MM-DD HH:mm:ss",
+    "atSymbol": ["@", "@"],
+    "atSymbolObj": {
+      "文件后缀": ["头部注释@符号", "函数注释@符号"]
+    },
+    "colon": [": ", ": "],
+    "colonObj": {
+      "文件后缀": ["头部注释冒号", "函数注释冒号"]
+    },
+    "filePathColon": "路径分隔符替换",
+    "showErrorMessage": false,
+    "writeLog": false,
+    "wideSame": true,
+    "wideNum": 13, // 头部注释自动对齐的宽度
+    "functionWideNum": 15, // 函数注释自动对齐宽度
+    "CheckFileChange": true,
+    "createHeader": false,
+    "useWorker": false,
+    "designAddHead": false,
+    "headDesignName": "random", // 头部图案注释，默认随机
+    "headDesign": false, // 默认关闭 开启后,所有生成头部注释的场景都会生成图案注释
+    "cursorModeInternalAll": {},
+    "openFunctionParamsCheck": true,
+    "functionParamsShape": ["{", "}"],
+    "functionBlankSpaceAll": {},
+    "functionTypeSymbol": " ", // 参数没有类型时的默认值
+    "typeParamOrder": "type param",
+    "customHasHeadEnd": {},
+    "throttleTime": 60000,
+    "functionParamAddStr": ""
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": null
+  },
+  "workbench.layoutControl.enabled": false,
+  "[less]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // prettier 选项配置
+  "prettier.printWidth": 150,
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": false,
+  "prettier.semi": true,
+  "prettier.singleQuote": true,
+  "prettier.quoteProps": "as-needed",
+  "prettier.jsxSingleQuote": false,
+  "prettier.trailingComma": "none",
+  "prettier.bracketSpacing": true,
+  "prettier.bracketSameLine": true,
+  "prettier.arrowParens": "avoid",
+  "prettier.proseWrap": "preserve",
+  "prettier.htmlWhitespaceSensitivity": "ignore",
+  "prettier.vueIndentScriptAndStyle": false,
+  "prettier.endOfLine": "crlf",
+  "prettier.embeddedLanguageFormatting": "auto",
+
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "material-icon-theme.activeIconPack": "angular",
+  "material-icon-theme.folders.theme": "specific"
+}
