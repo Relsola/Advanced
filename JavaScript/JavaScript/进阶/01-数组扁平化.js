@@ -4,8 +4,8 @@ const arr = [
 	[1, 2, [{ a: 1 }, [1]]],
 	[],
 	7,
-	[7, [8, [1, 3, ["he"]], "hello"]],
-	"world"
+	[7, [8, [1, 3, ['he']], 'hello']],
+	'world'
 ];
 
 {
@@ -17,8 +17,7 @@ const arr = [
 	// 2.常用 reduce
 	const f1 = arr =>
 		arr.reduce(
-			(prev, next) =>
-				prev.concat(Array.isArray(next) ? f1(next) : next),
+			(prev, next) => prev.concat(Array.isArray(next) ? f1(next) : next),
 			[]
 		);
 	console.log(f1(arr));
@@ -41,15 +40,11 @@ const arr = [
 		const result = [];
 		const fn = (arr, result) => {
 			arr.forEach(item => {
-				Array.isArray(item)
-					? fn(item, result)
-					: result.push(item);
+				Array.isArray(item) ? fn(item, result) : result.push(item);
 			});
 		};
 		arr.forEach(item => {
-			Array.isArray(item)
-				? fn(item, result)
-				: result.push(item);
+			Array.isArray(item) ? fn(item, result) : result.push(item);
 		});
 		return result;
 	};
@@ -70,19 +65,11 @@ const arr = [
 
 {
 	// 限制类型 且对里面的空数组无能为力 -------------------------------------------------------
-	console.log(
-		arr
-			.toString()
-			.split(/,,?/g)
-			.map(i => Number(i))
-	);
+	console.log(arr.toString().split(/,,?/g).map(Number));
 
 	console.log(
 		JSON.parse(
-			JSON.stringify(arr).replace(
-				/(?!^\[|\]$)(?:\[\]?,?|\])/g,
-				""
-			)
+			JSON.stringify(arr).replace(/(?!^\[|\]$)(?:\[\]?,?|\])/g, '')
 		)
 	);
 }
