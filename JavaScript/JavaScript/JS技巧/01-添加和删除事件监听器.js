@@ -16,9 +16,14 @@
  * @return {Function} 用于解绑的回调函数
  */
 function on(el, event, fn, opts = {}) {
-  const delegatorFn = e => e.target.matches(opts.target) && fn.call(e.target, e);
-  el.addEventListener(event, opts.target ? delegatorFn : fn, opts.options || false);
-  return opts.target ? delegatorFn : fn;
+	const delegatorFn = e =>
+		e.target.matches(opts.target) && fn.call(e.target, e);
+	el.addEventListener(
+		event,
+		opts.target ? delegatorFn : fn,
+		opts.options || false
+	);
+	return opts.target ? delegatorFn : fn;
 }
 
 const fn = e => console.log(e);
@@ -39,7 +44,7 @@ on(document.body, 'click', fn, { target: 'p', options: { once: true } });
  * @param {boolean} opts removeEventListener 解绑配置项，一个布尔值
  */
 function off(el, event, fn, opts = false) {
-  el.removeEventListener(event, fn, opts);
+	el.removeEventListener(event, fn, opts);
 }
 
 document.body.addEventListener('click', fn);

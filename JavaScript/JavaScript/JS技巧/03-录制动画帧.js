@@ -11,26 +11,34 @@
  * @return {{start:Function, stop:Function}} 一个具有 start 和 stop 方法的对象
  */
 const recordAnimationFrames = (callback, autoStart = true) => {
-  let running = false,
-    raf;
-  const stop = () => {
-    if (!running) return;
-    running = false;
-    cancelAnimationFrame(raf);
-  };
-  const start = () => {
-    if (running) return;
-    running = true;
-    run();
-  };
-  const run = () => {
-    raf = requestAnimationFrame(() => {
-      callback();
-      if (running) run();
-    });
-  };
-  if (autoStart) start();
-  return { start, stop };
+	let running = false,
+		raf;
+	const stop = () => {
+		if (!running) {
+			return;
+		}
+		running = false;
+		cancelAnimationFrame(raf);
+	};
+	const start = () => {
+		if (running) {
+			return;
+		}
+		running = true;
+		run();
+	};
+	const run = () => {
+		raf = requestAnimationFrame(() => {
+			callback();
+			if (running) {
+				run();
+			}
+		});
+	};
+	if (autoStart) {
+		start();
+	}
+	return { start, stop };
 };
 
 const cb = () => console.log('111');
@@ -38,11 +46,11 @@ const cb = () => console.log('111');
 const recorder = recordAnimationFrames(cb);
 
 setTimeout(() => {
-  recorder.stop();
+	recorder.stop();
 }, 2000);
 
 setTimeout(() => {
-  recorder.start();
+	recorder.start();
 }, 2000);
 
 const recorder2 = recordAnimationFrames(() => console.log('222'), false);
