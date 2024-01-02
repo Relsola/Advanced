@@ -12,7 +12,7 @@
 				func.apply(context, args);
 			}, delay);
 		};
-	}
+	}-
 
 	// 立即执行版
 	function debounce(func, delay) {
