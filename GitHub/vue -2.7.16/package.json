@@ -1,9 +1,0 @@
-{
-  "name": "vue",
-  "version": "2.7.16",
-  "packageManager": "pnpm@8.13.1",
-  "description": "study vue2",
-  "devDependencies": {
-    "@types/node": "^20.10.6"
-  }
-}

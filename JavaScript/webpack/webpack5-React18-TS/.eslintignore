@@ -1,6 +1,0 @@
-# eslintignore文件用户忽略文件检查
-
-/webpack
-/node_modules
-/config
-.eslintrc.json
